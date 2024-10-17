@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <script>
+
+      let myButton;
+
+      function onButtonCLicked() {
+
+        // change the name of the button
+        myButton.innerHTML = "Hello World";
+      }
+
+      function onPageLoad() {
+
+        // find the button with id my-button
+        myButton = document.querySelector("#my-button");
+
+        // handle what happen when the button is clicked
+        myButton.addEventListener('click', onButtonCLicked);
+      }
+
+      // handle what happen when the page is loaded
+      window.addEventListener('load', onPageLoad);
+  </script>
+
+  </head>
+
+  <body>
+
+    <h1>My First Heading</h1>
+
+    <button id="my-button">My Button</button>
+
+  </body>
+</html>
+

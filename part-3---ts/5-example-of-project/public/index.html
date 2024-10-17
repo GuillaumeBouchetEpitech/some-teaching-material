@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <title>Some Website</title>
+
+    <style>
+      body, h1 {
+        background-color: #0F0F0F;
+        color: #8F8F8F;
+        border: 0px 0px 0px 0px;
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+        font-family: arial;
+      }
+
+      .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+
+
+    </style>
+
+    <script type="module">
+
+      window.addEventListener("load", () => {
+
+        console.log("the page is now loaded");
+
+        // get and save the pages's useful bits
+        const results = document.querySelector("#results");
+        const addButton = document.querySelector("#add-button");
+        const listButton = document.querySelector("#list-button");
+
+        //
+        //
+        //
+
+        const lisAllEntries = async () => {
+
+          console.log("requesting the list of entries");
+
+          results.innerHTML = "LOADING"; // empty the content
+
+          // fetch the route
+          const response = await fetch("/list");
+          // ask the data as json payload (JS object)
+          const jsonData = await response.json();
+
+          console.log(jsonData);
+
+          // print it line by line
+          let newText = "";
+          for (const data of jsonData.allData) {
+            newText += `${JSON.stringify(data)} <br/>`;
+          }
+          results.innerHTML = newText;
+        }
+
+        //
+        //
+        //
+
+        const addNewEntry = async () => {
+
+          console.log("requesting new entry to be added");
+
+          // fetch the route -> will not return anything
+          await fetch("/add-new");
+
+          // reuse the list function
+          await lisAllEntries();
+        }
+
+        //
+        //
+        // ADD BUTTON
+
+        addButton.addEventListener('click', addNewEntry);
+
+        //
+        //
+        // LIST BUTTON
+
+        listButton.addEventListener('click', lisAllEntries);
+
+      });
+
+    </script>
+
+  </head>
+  <body>
+
+    <h1>Some Website</h1>
+
+    <p>Hello</p>
+
+    <button id="add-button">ADD NEW</button>
+    <button id="list-button">LIST</button>
+
+    <p id="results">Hello</p>
+
+  </body>
+</html>
+

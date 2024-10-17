@@ -1,0 +1,5 @@
+
+command run:
+> npm init
+> npm instal --save express
+> node server.js
