@@ -1,0 +1,58 @@
+
+digraph G {
+
+  bgcolor="transparent"
+
+  edge [color="white" fontcolor="white"]
+  node [fontcolor="white"]
+
+
+  start[
+    shape="circle"
+		style=filled;
+    color="#005500"
+    label="start"
+  ]
+
+  queue[
+    shape="cylinder"
+		style=filled;
+    color="#885500"
+    label="event loop\ntasks list\n"
+  ]
+
+  first_task[
+    shape="box"
+    style=filled;
+    color="#555555"
+    label="first_task"
+  ]
+
+  first_task_code[
+    shape="box"
+    style=filled;
+    color="#000055"
+    label="code instructions"
+  ]
+
+  stop[
+    shape="circle"
+		style=filled;
+    color="#550000"
+    label="stop"
+  ]
+
+  first_task -> first_task_code [style="dashed"]
+
+  start -> first_task [label="#1\ladd first_task\l"]
+  first_task -> queue [label="#2\ladded to\lthe list\l"]
+
+  start -> queue [label="#3\lstart the loop\l"]
+
+  queue -> queue [label="#4\lcheck the next task\lto run remove it\lfrom the list\l"]
+
+  queue -> first_task_code [label="#5\lrun the\linstruction\l"]
+
+  queue -> stop [label="#6\lno more\ltasks to run"]
+
+}

@@ -25,16 +25,19 @@ export class MyDataBase {
 
     return new Promise<void>((resolve, reject) => {
 
-      // the "!" is to shutdown an unwanted warning
-      this._db!.run(`
+      // SQL query to create a new table in the database
+      const sqlQuery = `
 
-        CREATE TABLE my_table (
+        CREATE TABLE IF NOT EXISTS my_table (
           firstName TEXT,
           lastName TEXT,
           age INT
         )
 
-      `, (err) => {
+      `;
+
+      // the "!" is to shutdown an unwanted warning
+      this._db!.run(sqlQuery, (err) => {
         if (err) {
           return reject(err);
         }
@@ -51,7 +54,8 @@ export class MyDataBase {
         return reject(new Error(`the db is not already initialized`));
       }
 
-      this._db.run(`
+      // SQL query to insert a new value in the database table "my_table"
+      const sqlQuery = `
 
         INSERT INTO
           my_table
@@ -61,7 +65,9 @@ export class MyDataBase {
           ${newData.age}
         );
 
-      `, (err) => {
+      `;
+
+      this._db.run(sqlQuery, (err) => {
         if (err) {
           return reject(err);
         }
@@ -78,14 +84,17 @@ export class MyDataBase {
         return reject(new Error(`the db is not already initialized`));
       }
 
-      this._db.all<DataEntry>(`
+      // SQL query to list all the values in the database table "my_table"
+      const sqlQuery = `
 
         SELECT
           *
         FROM
           my_table
 
-      `, (err, rows) => {
+      `;
+
+      this._db.all<DataEntry>(sqlQuery, (err, rows) => {
         if (err) {
           return reject(err);
         }

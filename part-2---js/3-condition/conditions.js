@@ -87,6 +87,18 @@ const value3 = false ? "yes" : true ? "maybe" : "no"; // -> value1 is "maybe"
 // less ugly ternary conditions
 const value4 = (false ? "yes" : (true ? "maybe" : "no")); // -> value1 is "maybe"
 
+// which is a one line equivalent to:
+//> let value4;
+//> if (false) {
+//>   value4 = 'yes';
+//> } else {
+//>   if (true) {
+//>     value4 = 'maybe';
+//>   } else {
+//>     value4 = 'no';
+//>   }
+//> }
+
 
 
 
