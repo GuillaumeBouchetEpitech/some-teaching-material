@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+  <head>
+      <script src="https://cdn.jsdelivr.net/pyodide/v0.27.1/full/pyodide.js"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-monaco-editor@1/index.js"></script>
+
+      <style>
+        body {
+          background-color: #888888;
+        }
+        /* wc-monaco-editor {
+          width: 90%;
+        } */
+      </style>
+
+  </head>
+  <body>
+
+    <div style="width: 90%; height: 200px;">
+      <wc-monaco-editor language="python"></wc-monaco-editor>
+    </div>
+
+    <textarea id="my-source-code" rows="40" style="width: 90%;">
+
+print("load")
+
+</textarea>
+    <button id="my-run-button">Run</button>
+
+    <script type="text/javascript">
+
+      window.addEventListener('load', async () => {
+
+        console.log("start")
+
+        //
+        //
+
+        const startTime = Date.now();
+
+        const pyodide = await loadPyodide();
+
+        const endTime = Date.now();
+        const deltaTime = endTime - startTime;
+
+        console.log(`loaded (${deltaTime}ms)`);
+
+        const response = await fetch("./ast2json/dist/ast2json-0.2.1-py2.py3-none-any.whl");
+        const buffer = await response.arrayBuffer();
+        await pyodide.unpackArchive(buffer, "wheel");
+        pyodide.pyimport("ast2json");
+
+        //
+        //
+
+        const _runPyCode = async (sourceCode) => {
+
+          try {
+            // runPythonAsync
+
+            // save print values
+            await pyodide.runPythonAsync([
+              "import sys",
+              "import io",
+              "sys.stdout = io.StringIO()",
+            ].join("\n"));
+
+            // run code
+            await pyodide.runPythonAsync(sourceCode);
+
+            // get printed values
+            const value = await pyodide.runPythonAsync("sys.stdout.getvalue()");
+
+            // console.log('value', value);
+
+            // reset printed values stream
+            await pyodide.runPythonAsync([
+              "sys.stdout.truncate(0)",
+              "sys.stdout.seek(0)",
+            ].join("\n"));
+
+            return value;
+
+          } catch (err) {
+            console.log('err', err)
+            console.log('err.message', err.message)
+            console.log('err.type', err.type)
+            console.log('err.__error_address', err.__error_address)
+            console.log('Object.keys(err)', Object.keys(err))
+            throw err;
+          }
+        };
+
+        const _getPyAst = async (sourceCode) => {
+
+          const actualCodeToRun = [
+            ``,
+            `import ast`,
+            `from ast2json import ast2json`,
+            `import json`,
+            ``,
+            `source_code = """`,
+            `${sourceCode}`,
+            // `print("LOL")`,
+            `"""`,
+            ``,
+            `try:`,
+            `  tree = ast2json(ast.parse(source_code))`,
+            ``,
+            `  print(json.dumps(tree, indent=4))`,
+            `except SyntaxError as err:`,
+            `  print(f'err: {err}')`,
+            `  print(f'err.filename: \"{err.filename}\"')`,
+            `  print(f'err.lineno: \"{err.lineno}\"')`,
+            `  print(f'err.end_lineno: \"{err.end_lineno}\"')`,
+            `  print(f'err.offset: \"{err.offset}\"')`,
+            `  print(f'err.end_offset: \"{err.end_offset}\"')`,
+            `  print(f'err.text: \"{err.text}\"')`,
+            ``,
+          ].join("\n");
+
+          console.log(`actualCodeToRun "${actualCodeToRun}"`);
+
+          const logs = await _runPyCode(actualCodeToRun)
+
+          console.log('logs', logs)
+
+          return JSON.parse(logs);
+
+        };
+
+        //
+        //
+
+        const sourceCode = document.querySelector('#my-source-code');
+        const runButton = document.querySelector('#my-run-button');
+
+        runButton.addEventListener('click', async () => {
+          runButton.disabled = true;
+
+          console.log(` -> "${sourceCode.value}"`);
+
+          const logs = await _runPyCode(sourceCode.value)
+
+          console.log(`logs -> "${logs}"`);
+
+          const ast = await _getPyAst(sourceCode.value);
+
+          console.log('ast', JSON.stringify(ast, null, 2))
+
+          // try {
+          //   // runPythonAsync
+
+          //   // save print values
+          //   await pyodide.runPythonAsync([
+          //     "import sys",
+          //     "import io",
+          //     "sys.stdout = io.StringIO()",
+          //   ].join("\n"));
+
+          //   // run code
+          //   await pyodide.runPythonAsync(sourceCode.value);
+
+          //   // get printed values
+          //   const value = await pyodide.runPythonAsync("sys.stdout.getvalue()");
+
+          //   console.log('value', value);
+
+          //   // reset printed values stream
+          //   await pyodide.runPythonAsync([
+          //     "sys.stdout.truncate(0)",
+          //     "sys.stdout.seek(0)",
+          //   ].join("\n"));
+
+          // } catch (err) {
+          //   console.log('err', err)
+          //   console.log('err.message', err.message)
+          //   console.log('err.type', err.type)
+          //   console.log('err.__error_address', err.__error_address)
+          //   console.log('Object.keys(err)', Object.keys(err))
+          // }
+
+          runButton.disabled = false;
+        });
+
+        //
+        //
+
+        console.log("stop")
+      });
+
+    </script>
+
+  </body>
+</html>
