@@ -1,0 +1,16 @@
+
+{
+  "id": "my-editor",
+  "theme": "vs-dark",
+  "language": "python",
+  "minimap": {
+    "enabled": true
+  },
+  "tabSize": 2,
+  "fontSize": 16,
+  "wordWrap": "on",
+  "lineNumbersMinChars": 3,
+  "wrappingIndent": "same",
+  "mouseWheelZoom": true,
+  "copyWithSyntaxHighlighting": false
+}
