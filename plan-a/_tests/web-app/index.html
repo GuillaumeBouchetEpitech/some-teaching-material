@@ -83,10 +83,10 @@
 
         console.log(`loaded (${deltaTime}ms)`);
 
-        const response = await fetch("./ast2json/dist/ast2json-0.2.1-py2.py3-none-any.whl");
-        const buffer = await response.arrayBuffer();
-        await pyodide.unpackArchive(buffer, "wheel");
-        pyodide.pyimport("ast2json");
+        // const response = await fetch("./ast2json/dist/ast2json-0.2.1-py2.py3-none-any.whl");
+        // const buffer = await response.arrayBuffer();
+        // await pyodide.unpackArchive(buffer, "wheel");
+        // pyodide.pyimport("ast2json");
 
         //
         //
