@@ -1,15 +1,19 @@
 
 # Must Know
 
-- command line
-  - pwd, cd, ls, ls -l, ls -la, mkdir, rm
++ command line
+  + pwd, cd, ls, ls -l, ls -la, mkdir, rm, touch
+
 - python
   - interpreter mode
-  - vars/collections
-  - branching
+  - vars; number, string, boolean
+  - collections: list, dict
+  - branching: if,elif,else
+  - functions: define, call, return, parameter(s)
   - loop
-  - functions
   - classes
+  - import source code files
+
 - pip
   - mathplotlib+numpy
 - git
