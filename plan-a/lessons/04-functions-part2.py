@@ -105,7 +105,7 @@ print("") # spacing in the console
 
 
 #
-# function that multiple args
+# function that use multiple args
 #
 
 
@@ -137,7 +137,7 @@ print("") # spacing in the console
 
 
 #
-# function that multiple args as a dict
+# function that use multiple args as a dict
 #
 
 

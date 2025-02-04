@@ -86,7 +86,7 @@ print(f'my_var {my_var} (after subtract)') # 3
 my_var = my_var * 3
 
 # multiply by 2 (will total to 18)
-my_var = my_var * 2 # popular syntax
+my_var *= 2 # popular syntax
 
 print(f'my_var {my_var} (after multiply)') # 18
 

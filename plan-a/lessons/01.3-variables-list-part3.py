@@ -76,7 +76,6 @@ else:
 
 
 
-
 # slice
 
 my_list = ['one', 'two', 'three', 'four', 'five']

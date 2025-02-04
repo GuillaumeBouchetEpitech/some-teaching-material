@@ -17,7 +17,7 @@ try:
 
     print('start')
 
-    raise ValueError("Hello?")
+    raise ValueError("You did not enter a number")
 
     print('stop') # <- will not be reached
 
@@ -42,7 +42,7 @@ try:
 
     print('start')
 
-    raise ValueError("Hello?") # <- this would crash the program if not in the try-block
+    raise ValueError("You did not enter a number") # <- this would crash the program if not in the try-block
 
     print('stop') # <- will not be reached
 
@@ -60,7 +60,7 @@ try:
 
     print('start')
 
-    raise NotImplementedError("Hello?") # <- this would crash the program if not in the try-block
+    raise NotImplementedError("You did not enter a number") # <- this would crash the program if not in the try-block
 
     print('stop') # <- will not be reached
 

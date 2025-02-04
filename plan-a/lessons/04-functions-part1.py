@@ -146,7 +146,7 @@ print("") # spacing in the console
 
 
 # define the function
-def my_function_step5(valueA, valueB = 444):
+def my_function_step5(valueA, valueB = 444): # here "valueB" has a default value if 444
     print("STEP5: I am inside a function")
     print(f"STEP5: -> valueA is {valueA}")
     print(f"STEP5: -> valueB is {valueB}")
