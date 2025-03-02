@@ -97,7 +97,7 @@ print(np.concatenate((y_pred.reshape(len(y_pred),1), y_test.reshape(len(y_test),
 # Evaluating the Model Performance
 from sklearn.metrics import r2_score
 score = r2_score(y_test, y_pred)
-print(f"score {score}")
+print(f"performance score (higher is better) {score}")
 
 #
 #
