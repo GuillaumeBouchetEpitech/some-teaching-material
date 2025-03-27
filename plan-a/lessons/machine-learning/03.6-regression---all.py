@@ -118,11 +118,14 @@ def get_decision_tree_regression() -> np.ndarray:
 
 def get_support_vector_regression() -> np.ndarray:
 
+  # for the "support vector regression" (SVR) -> we have to scale the features
+
   # Feature Scaling
   from sklearn.preprocessing import StandardScaler
   sc_X = StandardScaler()
   sc_y = StandardScaler()
-  scaled_X_train = sc_X.fit_transform(X_train)
+  scaled_X_train = sc_X.fit_transform(X_train) # fit AND transform
+  scaled_X_test = sc_X.transform(X_test) # do not fit -> just transform
   scaled_y_train = sc_y.fit_transform(y_train.reshape(-1, 1)) # reshape as a table of one column of X rows
 
   # Training the SVR model on the Training set
@@ -131,43 +134,7 @@ def get_support_vector_regression() -> np.ndarray:
   regressor.fit(scaled_X_train, scaled_y_train)
 
   # Predicting the Test set results
-  return sc_y.inverse_transform(regressor.predict(sc_X.transform(X_test)).reshape(-1,1)) # reshape as a table of one column of X rows
-
-#
-#
-#
-
-all_raw_predictions: list[dict] = []
-
-all_raw_predictions.append({
-  'name': "multiple linear regression",
-  'color': "red",
-  'y_pred': get_multiple_linear_regression_predictions()
-})
-
-all_raw_predictions.append({
-  'name': "polynomial linear regression",
-  'color': "orange",
-  'y_pred': get_polynomial_linear_regression()
-})
-
-all_raw_predictions.append({
-  'name': "random forest regression",
-  'color': "blue",
-  'y_pred': get_random_forest_regression()
-})
-
-all_raw_predictions.append({
-  'name': "decision tree regression",
-  'color': "purple",
-  'y_pred': get_decision_tree_regression()
-})
-
-all_raw_predictions.append({
-  'name': "support vector regression",
-  'color': "brown",
-  'y_pred': get_support_vector_regression()
-})
+  return sc_y.inverse_transform(regressor.predict(scaled_X_test).reshape(-1,1)) # reshape as a table of one column of X rows
 
 #
 #
@@ -176,20 +143,40 @@ all_raw_predictions.append({
 # Evaluating the Model Performance
 from sklearn.metrics import r2_score
 
-# add score
-for values in all_raw_predictions:
-  values['score'] = r2_score(y_test, values['y_pred'])
+class my_prediction_class:
+  name: str
+  color: str
+  y_pred: np.ndarray
+  score: float
+
+  def __init__(self, name: str, color: str, y_pred: np.ndarray):
+    self.name = name
+    self.color = color
+    self.y_pred = y_pred
+    self.score = r2_score(y_test, y_pred)
+
+all_predictions: list[my_prediction_class] = []
+
+all_predictions.append(my_prediction_class("multiple linear regression", "red", get_multiple_linear_regression_predictions()))
+all_predictions.append(my_prediction_class("polynomial linear regression", "orange", get_polynomial_linear_regression()))
+all_predictions.append(my_prediction_class("random forest regression", "blue", get_random_forest_regression()))
+all_predictions.append(my_prediction_class("decision tree regression", "purple", get_decision_tree_regression()))
+all_predictions.append(my_prediction_class("support vector regression", "brown", get_support_vector_regression()))
+
+#
+#
+#
 
 # sort by score
-def my_sort_func_by_score(values):
-  return values['score']
+def my_sort_func_by_score(values: my_prediction_class):
+  return values.score
 
-all_raw_predictions.sort(reverse=True, key=my_sort_func_by_score)
+all_predictions.sort(reverse=True, key=my_sort_func_by_score)
 
 # print sorted score
 print(f"print performance score: (higher is better)")
-for values in all_raw_predictions:
-  print(f"performance score for '{values['name']}' {values['score']}")
+for values in all_predictions:
+  print(f"performance score for '{values.name}' {values.score}")
 
 #
 #
@@ -211,14 +198,16 @@ plt.plot(
   linestyle='dashed'
 )
 
-for values in all_raw_predictions:
+for values in all_predictions:
   # plot this predicted set
   plt.plot(
     x_axis,
-    values['y_pred'].reshape(len(values['y_pred']), 1),
+    # reshape from a table of 1 columns and X rows to as single continuous row
+    values.y_pred.reshape(len(values.y_pred), 1),
     100,
-    color=values['color'],
-    label=f"{values['name']} ({values['score']})"
+    color=values.color,
+    # label is name + score
+    label=f"{values.name} ({values.score})"
   )
 
 #
