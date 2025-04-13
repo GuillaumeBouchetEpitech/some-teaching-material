@@ -22,7 +22,7 @@ import pandas as pd
 csv_filepath = f"{_get_current_folder()}/05-clustering-data.csv"
 
 dataset = pd.read_csv(csv_filepath)
-X = dataset.iloc[:, [3, 4]].values # only keep the "Age" and "Annual Income (k$)"
+X = dataset.iloc[:, [3, 4]].values # only keep the "Annual Income (k$)" and "Spending Score (1-100)"
 
 #
 #
