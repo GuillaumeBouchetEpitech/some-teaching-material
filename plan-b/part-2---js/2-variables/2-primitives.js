@@ -30,7 +30,7 @@ const myDecimalNumber3 = -0.003;
 const myBoolean1 = true;
 const myBoolean2 = false;
 
-// ex: isMinor, canWork, etc.
+// ex: isMinor, canWork, isAuthorized, etc.
 
 
 //
@@ -39,7 +39,10 @@ const myBoolean2 = false;
 // sneak peak:
 
 const age = 17; // number
-const canVote = (age >= 18); // boolean, store condition and reused in multiple places
+
+// boolean used to store a condition result
+// and possibly reused in multiple places
+const canVote = (age >= 18);
 if (canVote) {
   console.log("the user can vote")
 } else {
@@ -64,22 +67,22 @@ if (canVote) {
 // STRING
 //
 
-const myString1 = "Hello World!"
-const myString2 = "line 1\nline 2\nline 3"
-const myString4 = 'same with simple quotes'
+const myString1 = "Hello World!";
+const myString2 = "line 1\nline 2\nline 3";
+const myString4 = 'same with simple quotes';
 
-const myString5 = 'single quote string with "double quote" values'
+const myString5 = 'single quote string with "double quote" values';
 
-const myString6 = "double quote string with 'single quote' values"
+const myString6 = "double quote string with 'single quote' values";
 
-const myString7 = "double quote string with \"escaped double quote\" values"
+const myString7 = "double quote string with \"escaped double quote\" values";
 
 const myString8 = `This is
 a multi-lines
 string that is using
 the backticks instead of
 the single or double quotes
-`
+`;
 
 // strings are "objects" with "methods"
 // ex:

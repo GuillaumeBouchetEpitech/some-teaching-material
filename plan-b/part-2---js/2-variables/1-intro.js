@@ -14,7 +14,10 @@ oldWayToDeclare = 777; // number
 oldWayToDeclare = "hello?"; // string
 
 // the keyword "var" is old and should never be used ever again
-// some side effect that are a bit confusing to explain can happen
+
+// a "var" defined variable is accessible globally from everywhere,
+// which is making everything very complicated as a var with the same name
+// could be re-defined elsewhere and create a very confusing source code
 
 
 
@@ -24,13 +27,13 @@ oldWayToDeclare = "hello?"; // string
 // CONST
 //
 
-const newWaytToDeclare1 = 333
+const newWayToDeclare1 = 333
 
 // CANNOT be reassigned
 // newWaytToDeclare1 = 777; // this would throw an error at runtime
 
-// it is good practice to use the keyword "const" whenever it is possible to do so
-// -> Why -> it can prevent human errors, some values must never change
+// the keyword "const" SHOULD be sued whenever it is possible to do so
+// -> Why -> it can prevent human errors, some values MUST never change
 
 
 
@@ -47,7 +50,6 @@ newWaytToDeclare2 = 777; // number
 // reassigned again
 newWaytToDeclare2 = "hello?"; // string
 
-// the keyword "let" is behaving like "var" minus the confusing side effects
-// it is good practice to use "let" when "const" is not possible
+// the keyword "let" is behaving like "var" except it's only accessible locally
 
 

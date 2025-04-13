@@ -9,7 +9,7 @@ console.log("hello!");
 const currentTime = new Date();
 
 // build the file name to save
-const newFileName = "my_new_File_" + currentTime.toISOString() + ".txt";
+const newFileName = "my_new_File_" + currentTime.getTime() + ".txt";
 
 // store the file content to save
 const newFileContent =
