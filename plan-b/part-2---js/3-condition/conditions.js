@@ -25,7 +25,7 @@ if (3 == 3) {
   // will run
 }
 
-if (3 == 3) {
+if (3 != 3) {
   // will not run
 }
 
@@ -82,10 +82,10 @@ const value2 = false ? "yes" : "no"; // -> value2 is "no"
 
 
 // ugly ternary conditions
-const value3 = false ? "yes" : true ? "maybe" : "no"; // -> value1 is "maybe"
+const value3 = false ? "yes" : true ? "maybe" : "no"; // -> value3 is "maybe"
 
 // less ugly ternary conditions
-const value4 = (false ? "yes" : (true ? "maybe" : "no")); // -> value1 is "maybe"
+const value4 = (false ? "yes" : (true ? "maybe" : "no")); // -> value4 is "maybe"
 
 // which is a one line equivalent to:
 //> let value4;

@@ -14,7 +14,7 @@ const newFileName = "my_new_File_" + currentTime.getTime() + ".txt";
 // store the file content to save
 const newFileContent =
   "the date at the create of this file was\n" + currentTime.toDateString() +
-  " and the time was\n" + currentTime.toTimeString()
+  " and the time was\n" + currentTime.toTimeString();
 
 
 
