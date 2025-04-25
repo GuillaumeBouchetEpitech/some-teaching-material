@@ -15,7 +15,7 @@ const myObject2 = { hello: "world" }
 console.log(myObject2.hello); // -> "world"
 
 // we can add a value
-myObject2.someNumbers = 123
+myObject2.someNumbers = 123;
 
 // console logging will show the content of the object
 console.log(myObject2); // -> { hello: "world", someNumbers: 123 }
@@ -27,7 +27,6 @@ console.log(myObject2); // -> { hello: "world", someNumbers: 123 }
 
 // it's not necessary to store the object in a variable to use it
 console.log({ someKey: "some value" }); // -> { someKey: "some value" }
-
 
 
 

@@ -1,0 +1,22 @@
+
+body, h1 {
+  background-color: #0F0F0F;
+  color: #8F8F8F;
+  border: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  font-family: arial;
+}
+
+button {
+  background-color: #666666; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}

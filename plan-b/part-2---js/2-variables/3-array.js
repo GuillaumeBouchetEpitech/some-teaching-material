@@ -18,7 +18,7 @@ const myArray4 = ["hello", "world", 22.33, -77] // array of any variable
 // arrays are "objects" with "methods"
 // ex:
 
-const myArray5 = [];
+const myArray5 = []; // []
 myArray5.push("last"); // ["last"]
 myArray5.push("real-last"); // ["last", "real-last"]
 myArray5.shift("first"); // ["first", "last", "real-last"]
@@ -35,6 +35,7 @@ const firstElem = myArray5.unshift(); // ["last"]
 myArray5.length; // -> 1 (1 elements -> ["last"])
 
 myArray5.length = 0; // this empty the array of it's content
+// myArray5 -> []
 
 // it's not necessary to store the array in a variable to use it
 console.log([ 3, 2, 1, "liftoff" ]); // -> will print -> "[ 3, 2, 1, "liftoff" ]"
