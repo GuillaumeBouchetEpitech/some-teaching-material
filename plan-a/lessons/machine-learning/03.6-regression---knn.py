@@ -74,11 +74,11 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 #
 
 # Training the Random Forest Regression model on the whole dataset
-from sklearn.ensemble import RandomForestRegressor
-# regressor = RandomForestRegressor(n_estimators = 10, random_state = 0)
+from sklearn.neighbors import KNeighborsRegressor
+# regressor = KNeighborsRegressor(n_neighbors = 3)
 from sklearn.model_selection import GridSearchCV
-best_params = {'n_estimators': [10, 100, 200, 300]}
-regressor = GridSearchCV(estimator=RandomForestRegressor(random_state=0), param_grid=best_params, cv=5, scoring='neg_mean_absolute_error')
+best_params = {'n_neighbors': [3, 5, 10, 20, 30, 50, 100]}
+regressor = GridSearchCV(estimator=KNeighborsRegressor(), param_grid=best_params, cv=5, scoring='neg_mean_absolute_error')
 regressor.fit(X_train, y_train)
 
 # Predicting the Test set results

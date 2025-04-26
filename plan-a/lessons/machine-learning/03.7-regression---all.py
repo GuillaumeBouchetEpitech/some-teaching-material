@@ -100,8 +100,12 @@ def get_random_forest_regression() -> np.ndarray:
 
   # Training the Random Forest Regression model on the whole dataset
   from sklearn.ensemble import RandomForestRegressor
-  regressor = RandomForestRegressor(n_estimators = 10, random_state = 0)
+  from sklearn.model_selection import GridSearchCV
+  best_params = {'n_estimators': [10, 100, 200, 300]}
+  regressor = GridSearchCV(estimator=RandomForestRegressor(random_state=0), param_grid=best_params, cv=5, scoring='neg_mean_absolute_error')
   regressor.fit(X_train, y_train)
+
+
 
   # Predicting the Test set results
   return regressor.predict(X_test)
