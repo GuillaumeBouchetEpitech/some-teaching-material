@@ -65,10 +65,24 @@ X_test = sc.transform(X_test)
 #
 #
 
+#
+#
+#
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+
 # Training the K-NN model on the Training set
 from sklearn.neighbors import KNeighborsClassifier
 classifier = KNeighborsClassifier(n_neighbors = 5, metric = 'minkowski', p = 2)
 classifier.fit(X_train, y_train)
+
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+#
+#
+#
 
 #
 #

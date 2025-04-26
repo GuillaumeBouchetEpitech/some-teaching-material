@@ -71,9 +71,12 @@ print("y (outputs)")
 print(y)
 # ['No' 'Yes' 'No' 'No' 'Yes' 'Yes' 'No' 'Yes' 'No' 'Yes']
 
-# some NaN (Not A Number) values
-
-# ironing the NaN values next
+#
+#
+#
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
 
 print()
 print("#")
@@ -142,3 +145,10 @@ print() # spacing
 print("y (outputs)")
 print(y)
 # ['No' 'Yes' 'No' 'No' 'Yes' 'Yes' 'No' 'Yes' 'No' 'Yes']
+
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+#
+#
+#

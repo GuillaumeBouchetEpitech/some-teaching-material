@@ -65,10 +65,24 @@ X_test = sc.transform(X_test)
 #
 #
 
+#
+#
+#
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+
 # Training the Naive Bayes model on the Training set
 from sklearn.naive_bayes import GaussianNB
 classifier = GaussianNB()
 classifier.fit(X_train, y_train)
+
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+#
+#
+#
 
 #
 #

@@ -56,7 +56,7 @@ for row_index in range(0, total_rows):
       upper_bound = average_reward + confidence_interval
 
     else:
-      # ad selected for the first time -> start low (epsilon value)
+      # ad selected for the first time -> start low
       upper_bound = 1e400
 
     # update the best ad for this row

@@ -71,6 +71,14 @@ print("y (outputs)")
 print(y)
 # ['No' 'Yes' 'No' 'No' 'Yes' 'Yes' 'No' 'Yes' 'No' 'Yes']
 
+
+#
+#
+#
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+
 print()
 print("#")
 print("# ENCODING INPUT DATA")
@@ -109,3 +117,10 @@ print(y)
 # ['No' 'Yes' 'No' 'No' 'Yes' 'Yes' 'No' 'Yes' 'No' 'Yes']
 
 print() # spacing
+
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+#
+#
+#

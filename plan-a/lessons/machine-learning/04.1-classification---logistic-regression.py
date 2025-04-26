@@ -65,10 +65,24 @@ X_test = sc.transform(X_test)
 #
 #
 
+#
+#
+#
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+
 # Training the Logistic Regression model on the Training set
 from sklearn.linear_model import LogisticRegression
 classifier = LogisticRegression(random_state = 0, C=1) # <- C=1 stronger means overfitting protection
 classifier.fit(X_train, y_train)
+
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+#
+#
+#
 
 #
 #

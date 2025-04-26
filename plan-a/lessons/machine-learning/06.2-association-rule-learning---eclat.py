@@ -22,24 +22,39 @@ import pandas as pd
 csv_filepath = f"{_get_current_folder()}/06-association-rule-learning-data.csv"
 
 dataset = pd.read_csv(csv_filepath, header = None)
-transactions = []
-for i in range(0, 7501):
-  transactions.append([str(dataset.values[i,j]) for j in range(0, 20)])
 
-from apyori import apriori
+transactions: list[list[str]] = []
+for row in range(0, 7501):
+  transactions.append([str(dataset.values[row,col]) for col in range(0, 20)])
+
+from apyori import apriori, RelationRecord
 rules = apriori(transactions = transactions, min_support = 0.003, min_confidence = 0.2, min_lift = 3, min_length = 2, max_length = 2)
 
 results = list(rules)
 
-# print(results)
+print(results)
 
-def inspect(results):
-    lhs         = [tuple(result[2][0][0])[0] for result in results]
-    rhs         = [tuple(result[2][0][1])[0] for result in results]
-    supports    = [result[1] for result in results]
-    return list(zip(lhs, rhs, supports))
+#
+#
+#
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
 
-resultsinDataFrame = pd.DataFrame(inspect(results), columns = ['Product 1', 'Product 2', 'Support'])
+def inspect(results: list[RelationRecord]) -> list[tuple]:
+  prod1       = [tuple(result[2][0][0])[0] for result in results]
+  prod2       = [tuple(result[2][0][1])[0] for result in results]
+  supports    = [result[1] for result in results]
+  return list(zip(prod1, prod2, supports))
+
+resultsInDataFrame = pd.DataFrame(inspect(results), columns = ['Product 1', 'Product 2', 'Support'])
+
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+# NEW STUFF HERE -  NEW STUFF HERE -  NEW STUFF HERE
+#
+#
+#
 
 print()
 print("#")
@@ -47,13 +62,13 @@ print("#")
 print()
 print("## UNSORTED ##")
 print()
-print(resultsinDataFrame)
+print(resultsInDataFrame)
 
 print()
 print()
 print("## SORTED ##")
 print()
-print(resultsinDataFrame.nlargest(n = 10, columns = 'Support'))
+print(resultsInDataFrame.nlargest(n = 10, columns = 'Support'))
 print()
 print("#")
 print("#")

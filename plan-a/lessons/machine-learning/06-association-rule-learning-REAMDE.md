@@ -9,7 +9,7 @@ ex: "Buy ... and get ... for free"
 
 ## Model: Apriori
 
-* Apriori is useable with large datasets
+* Apriori is usable with large datasets
 * Apriori scans the original (real) dataset
 * Apriori is slower than Eclat
 
