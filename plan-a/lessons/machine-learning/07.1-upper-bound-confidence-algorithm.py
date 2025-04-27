@@ -29,7 +29,8 @@ dataset = pd.read_csv(csv_filepath)
 #
 
 import math
-total_rows = 10000
+# total_rows = 500 # not enough rows
+total_rows = 10000 # proper number of rows
 total_columns = 10 # 10 ads
 all_selected_ads: list[int] = []
 numbers_of_selections: list[int] = [0] * total_columns
