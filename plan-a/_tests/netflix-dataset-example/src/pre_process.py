@@ -1,47 +1,13 @@
 
+import pandas as pd
 
-def pre_process():
-
-  #
-  #
-  # UTILITY FUNCTION
-
-  def _get_current_folder() -> str:
-    # import os path namespace
-    import os.path
-    # get the absolute path from the current file we're in
-    absolute_path = os.path.abspath(__file__)
-    # get the folder of the absolute path
-    return os.path.dirname(absolute_path)
-
-  # UTILITY FUNCTION
-  #
-  #
-
-
-  import pandas as pd
-
-  csv_filepath = f"{_get_current_folder()}/../assets/Netflix Life Impact Dataset (NLID).csv"
-
-  df = pd.read_csv(csv_filepath)
+def pre_process(df: pd.DataFrame):
 
   # remove any unwanted extra spaces
   df.columns = df.columns.str.strip()
 
-  print("df", df)
+  # print("df", df)
   # print(df.isnull().sum())
-
-
-
-
-  # import seaborn as sns
-  # import matplotlib.pyplot as plt
-
-  # sns.countplot(x='Genre', data=df, color='red')
-  # # sns.countplot(x='How Discovered', data=df, color='red')
-  # plt.xticks(rotation=45)
-  # plt.title('Frequency of Genres')
-  # plt.show(block=True)
 
   #
   #
@@ -125,9 +91,5 @@ def pre_process():
 
 
 
-  from sklearn.model_selection import train_test_split
-
-  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-  return X_train, X_test, y_train, y_test
+  return X, y
 

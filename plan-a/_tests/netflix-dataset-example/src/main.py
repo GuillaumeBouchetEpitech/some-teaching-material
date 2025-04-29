@@ -1,24 +1,79 @@
 
+#
+#
+# UTILITY FUNCTION
+
+def _get_current_folder() -> str:
+  # import os path namespace
+  import os.path
+  # get the absolute path from the current file we're in
+  absolute_path = os.path.abspath(__file__)
+  # get the folder of the absolute path
+  return os.path.dirname(absolute_path)
+
+# UTILITY FUNCTION
+#
+#
+
+
+csv_filepath = f"{_get_current_folder()}/../assets/Netflix Life Impact Dataset (NLID).csv"
+
+import pandas as pd
+
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+
+# sns.countplot(x='Genre', data=df, color='red')
+# # sns.countplot(x='How Discovered', data=df, color='red')
+# plt.xticks(rotation=45)
+# plt.title('Frequency of Genres')
+# plt.show(block=True)
+
+df = pd.read_csv(csv_filepath)
+
+
 from pre_process import pre_process
 
+X, y = pre_process(df)
 
-X_train, X_test, y_train, y_test = pre_process()
+# X_my_test = pre_process(df[:1])
+
+# print(type(df[:1]))
+
+# print(df[:1].to_string())
+
+X_raw = pre_process(df[:1])
+
+# import sys
+# sys.exit(0)
+
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 
-def ann_test():
-
-  #
-  #
-  #
-  # PREDICTION PREDICTION PREDICTION PREDICTION PREDICTION
-  # PREDICTION PREDICTION PREDICTION PREDICTION PREDICTION
-  # PREDICTION PREDICTION PREDICTION PREDICTION PREDICTION
-
-  import tensorflow as tf
+def get_or_create_ann_from_file():
 
   X_train_dense = X_train.toarray()
   X_test_dense = X_test.toarray()
   input_dim = X_train.shape[1]
+
+  from pathlib import Path
+
+  model_filepath = f"{_get_current_folder()}/../assets/mode.keras"
+
+  import tensorflow as tf
+
+  my_file = Path(model_filepath)
+  if my_file.exists() and my_file.is_file():
+
+    print("model file was found")
+    print("reusing previously trained model")
+
+    return tf.keras.models.load_model(model_filepath)
+
+  print("model file was not found")
+  print("training new model")
 
   ann = tf.keras.models.Sequential()
   ann.add(tf.keras.layers.Input(shape=(input_dim,)))
@@ -54,7 +109,7 @@ def ann_test():
   early_stopping = tf.keras.callbacks.EarlyStopping(
     monitor='val_loss',
 
-    # here "patience" = "epoch"
+    # here "patience" is the same as "epoch"
     # -> we're just after the 'restore_best_weights' feature
     patience=epochs,
 
@@ -71,11 +126,28 @@ def ann_test():
     verbose=1
   )
 
+  # Save the model
+  ann.save(model_filepath)
+
+  return ann
+
+def ann_test():
+
+  #
+  #
+  #
+  # PREDICTION PREDICTION PREDICTION PREDICTION PREDICTION
+  # PREDICTION PREDICTION PREDICTION PREDICTION PREDICTION
+  # PREDICTION PREDICTION PREDICTION PREDICTION PREDICTION
+
+  X_train_dense = X_train.toarray()
+  X_test_dense = X_test.toarray()
+  input_dim = X_train.shape[1]
+
+  ann = get_or_create_ann_from_file()
 
   # loss, mae = ann.evaluate(X_test_dense, y_test, verbose=1)
   y_pred = ann.predict(X_test_dense).flatten()
-
-
 
   from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
@@ -86,6 +158,10 @@ def ann_test():
   print(f" -> MAE = {mae:.4f}")
   score = r2_score(y_test, y_pred)
   print(f' -> performance score (higher is better) {score}')
+
+  # y_raw = ann.predict(X_raw).flatten()
+  # print(f' -> y_raw {y_raw}')
+
 
 
 
