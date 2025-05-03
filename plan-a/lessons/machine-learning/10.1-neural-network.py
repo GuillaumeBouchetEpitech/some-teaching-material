@@ -68,9 +68,10 @@ X_train = sc.fit_transform(X_train)
 X_test = sc.transform(X_test)
 
 
-from pathlib import Path
 
 model_filepath = f"{_get_current_folder()}/10.1.deep-learning-model.keras"
+
+from pathlib import Path
 
 model_file = Path(model_filepath)
 if model_file.exists() and model_file.is_file():
