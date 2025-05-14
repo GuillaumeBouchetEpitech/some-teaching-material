@@ -42,7 +42,7 @@ X, y = pre_process(df)
 
 # print(df[:1].to_string())
 
-X_raw = pre_process(df[:1])
+# X_raw = pre_process(df.iloc[1:])
 
 # import sys
 # sys.exit(0)
@@ -142,7 +142,7 @@ def ann_test():
 
   X_train_dense = X_train.toarray()
   X_test_dense = X_test.toarray()
-  input_dim = X_train.shape[1]
+  # input_dim = X_train.shape[1]
 
   ann = get_or_create_ann_from_file()
 
@@ -159,7 +159,32 @@ def ann_test():
   score = r2_score(y_test, y_pred)
   print(f' -> performance score (higher is better) {score}')
 
-  # y_raw = ann.predict(X_raw).flatten()
+
+  print("--------------------------")
+
+  limited_df = df.iloc[0:2, :] # all columns
+
+  print(type(limited_df))
+  print(limited_df)
+
+
+  # X_raw, y_raw = pre_process(limited_df)
+
+  # X_train2, X_test2, y_train2, y_test2 = train_test_split(X_raw, y_raw, test_size=0.0001, random_state=42)
+
+
+  # print(f"X_train:       {type(X_train)}")
+  # print(f"X_train_dense: {type(X_train_dense)}")
+  # print(f"X_raw:         {type(X_raw)}")
+  # print(f"X_train2:      {type(X_train2)}")
+
+  # import numpy as np
+  # print(f"X_raw:         {type(np.ndarray(X_raw))}")
+
+  # print("X_raw", X_raw)
+  # print("list(X_raw)", list(X_raw))
+
+  # y_raw = ann.predict(X_raw.toarray()).flatten()
   # print(f' -> y_raw {y_raw}')
 
 

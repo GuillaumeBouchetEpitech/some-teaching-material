@@ -19,7 +19,7 @@ window.addEventListener("load", () => {
     results.innerHTML = "LOADING"; // empty the content
 
     // fetch the route
-    const response = await fetch("/list-all");
+    const response = await fetch("/list-all?startIndex=0&maxSize=100");
     // ask the data as json payload (JS object)
     const jsonData = await response.json();
 

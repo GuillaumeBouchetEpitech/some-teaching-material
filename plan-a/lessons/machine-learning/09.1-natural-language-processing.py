@@ -126,9 +126,12 @@ else:
   ann.add(tf.keras.layers.Input(shape=(input_size,)))
 
   # add 4 dense layer
-  for i in range(0, 3):
-    ann.add(tf.keras.layers.Dense(units=128, activation='relu'))
+  for i in range(0, 5):
+    ann.add(tf.keras.layers.Dense(units=256, activation='relu'))
     ann.add(tf.keras.layers.Dropout(rate=0.3))
+
+  ann.add(tf.keras.layers.Dense(units=128, activation='relu'))
+  ann.add(tf.keras.layers.Dropout(rate=0.3))
 
   # funnel previous layer of 128 to new layer of 64
   ann.add(tf.keras.layers.Dense(units=64, activation='relu'))
@@ -139,27 +142,45 @@ else:
   ann.add(tf.keras.layers.Dropout(rate=0.3))
 
   # output layer of 1
-  ann.add(tf.keras.layers.Dense(units=1, activation='relu'))
+  ann.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
 
   ann.compile(
 
     # optimizer='sgd', # stochastic gradient descent -> worst (max accuracy was 0.6)
     optimizer='adam', # Adam algorithm -> best (max accuracy was 0.765)
 
-    loss='huber', # less sensitive to outlier values
+    # loss='huber', # less sensitive to outlier values
+    # loss='sparse_categorical_crossentropy', # less sensitive to outlier values
+    # loss=tf.keras.losses.sparse_categorical_crossentropy,
+    loss='binary_crossentropy', # less sensitive to outlier values
+
 
     # metrics=['mean_absolute_error']
-    metrics=['accuracy']
+    # metrics=['accuracy']
+    metrics=['accuracy', 'mean_absolute_error']
 
   )
   ann.summary()
 
 
+  early_stopping = tf.keras.callbacks.EarlyStopping(
+    # monitor='val_loss',
+    monitor='val_accuracy',
+
+    # here "patience" is the same as "epoch"
+    # -> we're just after the 'restore_best_weights' feature
+    patience=100,
+
+    restore_best_weights=True,
+    verbose=1
+  )
+
   history = ann.fit(
     X_train_dense, y_train,
-    epochs=100,
-    batch_size=40,
+    epochs=300,
+    batch_size=16,
     validation_data=(X_test_dense, y_test),
+    callbacks=[early_stopping],
     verbose=1
   )
 
@@ -167,7 +188,7 @@ else:
   ann.save(model_filepath)
 
 
-y_pred = ann.predict(X_test_dense)
+y_pred = ann.predict(X_test_dense, verbose=0)
 
 # y_pred is of shape (200, 1) -> 2D matrix
 y_pred = y_pred.flatten()

@@ -87,13 +87,15 @@ else:
   print("training new model")
 
   ann = tf.keras.models.Sequential()
-  ann.add(tf.keras.layers.Dense(units=6, activation='relu'))
-  ann.add(tf.keras.layers.Dense(units=6, activation='relu'))
-  ann.add(tf.keras.layers.Dense(units=1, activation='relu'))
+  ann.add(tf.keras.layers.Dense(units=64, activation='relu'))
+  ann.add(tf.keras.layers.Dense(units=64, activation='relu'))
+  ann.add(tf.keras.layers.Dense(units=64, activation='relu'))
+  ann.add(tf.keras.layers.Dense(units=32, activation='relu'))
+  ann.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
 
   ann.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
-  ann.fit(X_train, y_train, batch_size = 32, epochs = 100)
+  ann.fit(X_train, y_train, batch_size = 256, epochs = 100)
 
   # Save the model
   ann.save(model_filepath)

@@ -16,7 +16,7 @@ case $USER_INPUT_PLATFORM in
   echo "selected target: create"
   echo ""
 
-  micromamba create -n planA-lessons -f env.yml
+  micromamba create -n planA-lessons -f env.yml --yes
   ;;
 2)
   echo ""

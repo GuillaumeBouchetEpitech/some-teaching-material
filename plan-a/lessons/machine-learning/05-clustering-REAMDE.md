@@ -8,17 +8,19 @@
 
 ## K-Means Clustering
 
-Simple to understand, easily adaptable,
-works well on small or large datasets,
-fast, efficient and performant
-
-Need to choose the number of clusters
+pro(s):
+- Simple to understand
+- easily adaptable
+- works well on small or large datasets
+- fast, efficient/performant
+con(s):
+- Need to choose the number of clusters
 
 ## Hierarchical Clustering
 
-The optimal number of clusters can be
-obtained by the model itself, practical
-visualisation with the dendrogram
-
-Not appropriate for large datasets
+pro(s)
+- The optimal number of clusters can be obtained by the model itself
+- practical visualization with the dendrogram
+con(s)
+- Not appropriate for large datasets
 

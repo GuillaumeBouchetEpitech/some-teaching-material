@@ -37,11 +37,11 @@ def pre_process(df: pd.DataFrame):
     return " ".join(good_words)
 
   def sanitize_text(text: str) -> str:
-    # remove any "no-word + space"
+    # remove anything that is  "not a word"
     text = re.sub(r'[^\w\s]', ' ', text)
     # remove all digits
     text = re.sub(r'\d+', ' ', text)
-    # remove all extra spaces, only keep "in between words" spaces
+    # remove all extra spaces -> only keep "one space in between words"
     text = re.sub(r'\s+', ' ', text).strip()
     lemmatizer = WordNetLemmatizer()
     text = " ".join([lemmatizer.lemmatize(word) for word in text.split()])
@@ -56,7 +56,7 @@ def pre_process(df: pd.DataFrame):
   vectorizer = TfidfVectorizer(max_features=5000)
   vector_text = vectorizer.fit_transform(sanitized_text)
 
-  # print(vector_text)
+  print("vector_text", vector_text)
 
   # process the column "Review Highlights"
   #
