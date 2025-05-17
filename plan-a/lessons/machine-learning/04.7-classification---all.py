@@ -65,7 +65,7 @@ X_test = sc.transform(X_test)
 #
 #
 
-def get_logistic_regression_classification_predictions() -> np.ndarray:
+def get_logistic_regression_classification_predictions(X_input) -> np.ndarray:
 
   # Training the Logistic Regression model on the Training set
   from sklearn.linear_model import LogisticRegression
@@ -73,9 +73,9 @@ def get_logistic_regression_classification_predictions() -> np.ndarray:
   classifier.fit(X_train, y_train)
 
   # Predicting the Test set results
-  return classifier.predict(X_test)
+  return classifier.predict(X_input)
 
-def get_k_nearest_neighbors_classification_predictions() -> np.ndarray:
+def get_k_nearest_neighbors_classification_predictions(X_input) -> np.ndarray:
 
   # Training the K-NN model on the Training set
   from sklearn.neighbors import KNeighborsClassifier
@@ -83,9 +83,9 @@ def get_k_nearest_neighbors_classification_predictions() -> np.ndarray:
   classifier.fit(X_train, y_train)
 
   # Predicting the Test set results
-  return classifier.predict(X_test)
+  return classifier.predict(X_input)
 
-def get_svm_classification_predictions() -> np.ndarray:
+def get_svm_classification_predictions(X_input) -> np.ndarray:
 
   # Training the Kernel SVM model on the Training set
   from sklearn.svm import SVC
@@ -93,9 +93,9 @@ def get_svm_classification_predictions() -> np.ndarray:
   classifier.fit(X_train, y_train)
 
   # Predicting the Test set results
-  return classifier.predict(X_test)
+  return classifier.predict(X_input)
 
-def get_naive_bayes_classification_predictions() -> np.ndarray:
+def get_naive_bayes_classification_predictions(X_input) -> np.ndarray:
 
   # Training the Naive Bayes model on the Training set
   from sklearn.naive_bayes import GaussianNB
@@ -103,9 +103,9 @@ def get_naive_bayes_classification_predictions() -> np.ndarray:
   classifier.fit(X_train, y_train)
 
   # Predicting the Test set results
-  return classifier.predict(X_test)
+  return classifier.predict(X_input)
 
-def get_decision_tree_classification_predictions() -> np.ndarray:
+def get_decision_tree_classification_predictions(X_input) -> np.ndarray:
 
   # Training the Decision Tree Classification model on the Training set
   from sklearn.tree import DecisionTreeClassifier
@@ -113,9 +113,9 @@ def get_decision_tree_classification_predictions() -> np.ndarray:
   classifier.fit(X_train, y_train)
 
   # Predicting the Test set results
-  return classifier.predict(X_test)
+  return classifier.predict(X_input)
 
-def get_random_forest_classification_predictions() -> np.ndarray:
+def get_random_forest_classification_predictions(X_input) -> np.ndarray:
 
   # Training the Random Forest Classification model on the Training set
   from sklearn.ensemble import RandomForestClassifier
@@ -124,7 +124,7 @@ def get_random_forest_classification_predictions() -> np.ndarray:
   classifier.fit(X_train, y_train)
 
   # Predicting the Test set results
-  return classifier.predict(X_test)
+  return classifier.predict(X_input)
 
 
 #
@@ -140,21 +140,22 @@ class my_prediction_class:
   y_pred: np.ndarray
   score: float
 
-  def __init__(self, name: str, color: str, y_pred: np.ndarray):
+  def __init__(self, name: str, color: str, predict_callback):
     self.name = name
     self.color = color
-    self.y_pred = y_pred
-    self.score = accuracy_score(y_test, y_pred)
+    self.predict_callback = predict_callback
+    self.y_pred = predict_callback(X_test)
+    self.score = accuracy_score(y_test, self.y_pred)
 
 all_predictions: list[my_prediction_class] = []
 
 
-all_predictions.append(my_prediction_class("logistic regression classification", "red", get_logistic_regression_classification_predictions()))
-all_predictions.append(my_prediction_class("k-nearest-neighbors classification", "orange", get_k_nearest_neighbors_classification_predictions()))
-all_predictions.append(my_prediction_class("svm classification", "blue", get_svm_classification_predictions()))
-all_predictions.append(my_prediction_class("naive bayes classification", "purple", get_naive_bayes_classification_predictions()))
-all_predictions.append(my_prediction_class("decision tree classification", "brown", get_decision_tree_classification_predictions()))
-all_predictions.append(my_prediction_class("random forest classification", "yellow", get_random_forest_classification_predictions()))
+all_predictions.append(my_prediction_class("logistic regression", "red", get_logistic_regression_classification_predictions))
+all_predictions.append(my_prediction_class("k-nearest-neighbors", "orange", get_k_nearest_neighbors_classification_predictions))
+all_predictions.append(my_prediction_class("svm", "blue", get_svm_classification_predictions))
+all_predictions.append(my_prediction_class("naive bayes", "purple", get_naive_bayes_classification_predictions))
+all_predictions.append(my_prediction_class("decision tree", "brown", get_decision_tree_classification_predictions))
+all_predictions.append(my_prediction_class("random forest", "yellow", get_random_forest_classification_predictions))
 
 #
 #
@@ -175,42 +176,84 @@ for values in all_predictions:
 #
 #
 
-x_axis = [x for x in range(0, len(y_test))]
+# x_axis = [x for x in range(0, len(y_test))]
+
+# import matplotlib.pyplot as plt
+
+# plt.figure(figsize=(10,10))  # set plot size (denoted in inches)
+
+# # plot the test set
+# plt.plot(
+#   x_axis,
+#   y_test.reshape(len(y_test), 1),
+#   3,
+#   color='green',
+#   label='test set',
+#   linestyle='dashed'
+# )
+
+# for values in all_predictions:
+#   # plot this predicted set
+#   plt.plot(
+#     x_axis,
+#     # reshape from a table of 1 columns and X rows to as single continuous row
+#     values.y_pred.reshape(len(values.y_pred), 1),
+#     3,
+#     color=values.color,
+#     # label is name + score
+#     label=f"{values.name} ({values.score})"
+#   )
+
+# #
+# #
+# #
+
+# plt.legend()
+
+# plt.xlabel('Indices')
+# plt.ylabel('Profits')
+# plt.title('Profits test/predictions comparison')
+# plt.grid()
+# plt.show(block=True) # <- force the window to open and stay open
+
+
+from matplotlib.colors import ListedColormap
+color_map = ListedColormap(('salmon', 'dodgerblue'))
+
+# X_set, y_set = sc.inverse_transform(X_train), y_train
+X_set, y_set = X_train, y_train
+X1, X2 = np.meshgrid(
+  # np.arange(start = X_set[:, 0].min() - 5, stop = X_set[:, 0].max() + 5, step = 5),
+  # np.arange(start = X_set[:, 1].min() - 5, stop = X_set[:, 1].max() + 5, step = 5)
+  np.arange(start = X_set[:, 0].min() - 0.1, stop = X_set[:, 0].max() + 0.1, step = 0.01),
+  np.arange(start = X_set[:, 1].min() - 0.1, stop = X_set[:, 1].max() + 0.1, step = 0.01)
+)
+
+# raw_data = sc.transform(np.array([X1.ravel(), X2.ravel()]).T)
+raw_data = np.array([X1.ravel(), X2.ravel()]).T
+
 
 import matplotlib.pyplot as plt
 
-plt.figure(figsize=(10,10))  # set plot size (denoted in inches)
+fig, axs = plt.subplots(1, 6, figsize=(2.5*6, 2.5))  # 1 row, 6 columns
 
-# plot the test set
-plt.plot(
-  x_axis,
-  y_test.reshape(len(y_test), 1),
-  3,
-  color='green',
-  label='test set',
-  linestyle='dashed'
-)
+for index in range(0, len(all_predictions)):
 
-for values in all_predictions:
-  # plot this predicted set
-  plt.plot(
-    x_axis,
-    # reshape from a table of 1 columns and X rows to as single continuous row
-    values.y_pred.reshape(len(values.y_pred), 1),
-    3,
-    color=values.color,
-    # label is name + score
-    label=f"{values.name} ({values.score})"
-  )
+  result = all_predictions[index].predict_callback(raw_data).reshape(X1.shape)
 
-#
-#
-#
+  axs[index].contourf(X1, X2, result, alpha = 0.5, cmap = color_map)
+  for i, j in enumerate(np.unique(y_set)):
+      axs[index].scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], color = color_map(i), label = j, s=1)
+  axs[index].set_title("{}\nscore: {:.2f} %".format(all_predictions[index].name, all_predictions[index].score))
+  axs[index].set_xlabel('Age')
+  axs[index].set_ylabel('Estimated Salary')
 
-plt.legend()
+# axs[1].contourf(X1, X2, result_worst, alpha = 0.5, cmap = color_map)
+# for i, j in enumerate(np.unique(y_set)):
+#     axs[1].scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], color = color_map(i), label = j, s=1)
+# axs[1].set_title('worst')
+# axs[1].set_xlabel('Age')
+# axs[1].set_ylabel('Estimated Salary')
 
-plt.xlabel('Indices')
-plt.ylabel('Profits')
-plt.title('Profits test/predictions comparison')
-plt.grid()
+plt.tight_layout()
 plt.show(block=True) # <- force the window to open and stay open
