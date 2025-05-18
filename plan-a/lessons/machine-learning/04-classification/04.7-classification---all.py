@@ -146,6 +146,7 @@ class my_prediction_class:
     self.predict_callback = predict_callback
     self.y_pred = predict_callback(X_test)
     self.score = accuracy_score(y_test, self.y_pred)
+    self.confusion_matrix = confusion_matrix(y_test, self.y_pred)
 
 all_predictions: list[my_prediction_class] = []
 
@@ -232,28 +233,29 @@ X1, X2 = np.meshgrid(
 # raw_data = sc.transform(np.array([X1.ravel(), X2.ravel()]).T)
 raw_data = np.array([X1.ravel(), X2.ravel()]).T
 
+labels = ['did buy', 'did not']
 
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-fig, axs = plt.subplots(1, 6, figsize=(2.5*6, 2.5))  # 1 row, 6 columns
+fig, axs = plt.subplots(nrows = 2, ncols = 6, figsize=(2.5*6, 2.5*2))  # 1 row, 6 columns
 
 for index in range(0, len(all_predictions)):
 
   result = all_predictions[index].predict_callback(raw_data).reshape(X1.shape)
 
-  axs[index].contourf(X1, X2, result, alpha = 0.5, cmap = color_map)
+  axs[0, index].contourf(X1, X2, result, alpha = 0.5, cmap = color_map)
   for i, j in enumerate(np.unique(y_set)):
-      axs[index].scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], color = color_map(i), label = j, s=1)
-  axs[index].set_title("{}\nscore: {:.2f} %".format(all_predictions[index].name, all_predictions[index].score))
-  axs[index].set_xlabel('Age')
-  axs[index].set_ylabel('Estimated Salary')
+      axs[0, index].scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], color = color_map(i), label = j, s=1)
+  axs[0, index].set_title("{}\nscore: {:.2f} %".format(all_predictions[index].name, all_predictions[index].score))
+  axs[0, index].set_xlabel('Age')
+  axs[0, index].set_ylabel('Estimated Salary')
 
-# axs[1].contourf(X1, X2, result_worst, alpha = 0.5, cmap = color_map)
-# for i, j in enumerate(np.unique(y_set)):
-#     axs[1].scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], color = color_map(i), label = j, s=1)
-# axs[1].set_title('worst')
-# axs[1].set_xlabel('Age')
-# axs[1].set_ylabel('Estimated Salary')
+  sns.heatmap(all_predictions[index].confusion_matrix,
+              cmap = "Reds", annot = True, annot_kws = {'fontweight':'bold'},
+              fmt = " ", square = True, cbar = False,
+              xticklabels = labels, yticklabels = labels, ax = axs[1, index])
+  axs[1, index].set_title("Confusion Matrix", fontsize = 12, fontweight = "bold", color = "black")
 
 plt.tight_layout()
 plt.show(block=True) # <- force the window to open and stay open

@@ -245,3 +245,23 @@ for sentence in all_custom_sentences:
   _predict_my_sentence(sentence[0], sentence[1])
 
 
+#
+#
+#
+
+# Visualizing
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+fig, axs = plt.subplots(nrows = 1, ncols = 1, figsize = (10,4.2))
+
+labels = ['like', 'dislike']
+sns.heatmap(cm, cmap = 'Reds',
+            annot = True, annot_kws = {'fontweight':'bold'},
+            fmt = " ", square = True, cbar = False,
+            xticklabels = labels, yticklabels = labels, ax = axs)
+axs.set_title("Confusion Matrix", fontsize = 12, fontweight = "bold", color = "black")
+
+# plt.legend()
+plt.show(block=True) # <- force the window to open and stay open

@@ -110,6 +110,7 @@ print(f"score: {score}")
 # Visualizing
 
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 from matplotlib.colors import ListedColormap
 color_map = ListedColormap(['#FA8072', '#1E90FF'])
@@ -125,13 +126,21 @@ X1, X2 = np.meshgrid(
 # raw_data = sc.transform(np.array([X1.ravel(), X2.ravel()]).T)
 raw_data = np.array([X1.ravel(), X2.ravel()]).T
 
-plt.contourf(X1, X2, classifier.predict(raw_data).reshape(X1.shape), alpha = 0.75, cmap = color_map)
-plt.xlim(X1.min(), X1.max())
-plt.ylim(X2.min(), X2.max())
+
+fig,ax = plt.subplots(nrows = 1, ncols = 2, figsize = (10,4.2))
+ax = ax.flat
+
+labels = ['did buy', 'did not']
+sns.heatmap(cm, cmap = 'Reds', annot = True, annot_kws = {'fontweight':'bold'}, fmt = " ", square = True, cbar = False,
+            xticklabels = labels, yticklabels = labels, ax = ax[0])
+ax[0].set_title("Confusion Matrix", fontsize = 12, fontweight = "bold", color = "black")
+
+
+ax[1].contourf(X1, X2, classifier.predict(raw_data).reshape(X1.shape), alpha = 0.75, cmap = color_map)
 for i, j in enumerate(np.unique(y_set)):
-  plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], color = color_map(i), label = j)
-plt.title('Purchased by age')
-plt.xlabel('Age')
-plt.ylabel('Estimated Salary')
+  ax[1].scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], color = color_map(i), label = j)
+ax[1].set_title('Purchased by age')
+ax[1].set_xlabel('Age')
+ax[1].set_ylabel('Estimated Salary')
 plt.legend()
 plt.show(block=True) # <- force the window to open and stay open

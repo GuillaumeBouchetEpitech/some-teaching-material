@@ -23,7 +23,7 @@ case $USER_INPUT_PLATFORM in
   echo "selected target: update"
   echo ""
 
-  micromamba update -n planA-lessons -f env.yml
+  micromamba update -n planA-lessons -f env.yml --yes
   ;;
 3)
   echo ""
