@@ -70,6 +70,8 @@ accuracies = cross_val_score(
 )
 print("Accuracy (higher is better): {:.2f} %".format(accuracies.mean()*100))
 print("Standard Deviation (lower is better): {:.2f} %".format(accuracies.std()*100))
+print("All Accuracies:", accuracies.reshape(len(accuracies), 1))
+
 
 # NEW STUFF HERE NEW STUFF HERE NEW STUFF HERE
 #
@@ -84,19 +86,10 @@ print("Standard Deviation (lower is better): {:.2f} %".format(accuracies.std()*1
 classifierB = SVC(kernel = 'rbf', random_state = 0)
 classifierB.fit(X_train, y_train)
 
-C_range = []
-gamma_range = []
-
-for i in range(1, 80):
-  coefVal = i/20.0 # 1 -> 0.05
-  C_range.append(coefVal) # [0.05..4.0]
-  gamma_range.append(coefVal) # [0.05..4.0]
-
-
 from sklearn.model_selection import GridSearchCV
 parameters = [
-  {'C': C_range, 'kernel': ['linear']},
-  {'C': C_range, 'kernel': ['rbf'], 'gamma': gamma_range}
+  {'C': [1.0, 1.1, 1.2, 1.3, 1.4, 1.5], 'kernel': ['linear']},
+  {'C': [1.0, 1.1, 1.2, 1.3, 1.4, 1.5], 'kernel': ['rbf'], 'gamma': [2.5,2.6,2.7,2.8,2.9,3.0]}
 ]
 # will also refit the classifier and keep the best one
 grid_search = GridSearchCV(
@@ -105,11 +98,15 @@ grid_search = GridSearchCV(
 
   scoring = 'accuracy',
 
-  cv = 10, # k-fold -> will chunk-ify 10 times and train/test over it all
+  # k-fold -> will chunk-ify 10 times and train/test over it all
+  cv = 10,
 
-  # n_jobs = -1 # use all cpu cores
-  n_jobs = 8 # use 4 cpu cores
+  # once done, refit the classifier with the best parameters
+  refit = True,
+
+  # n_jobs = -1 # use all cpu cores (a bit much...)
   # n_jobs = 4 # use 4 cpu cores
+  n_jobs = 8 # use 8 cpu cores
 )
 grid_search.fit(X_train, y_train)
 best_accuracy = grid_search.best_score_

@@ -78,7 +78,8 @@ for i in range(0, total_rows):
   review = [lemmatizer.lemmatize(word) for word in review]
 
   # make the list of words a string of words
-  review = ' '.join(review) # list[str] -> str
+  # ex: ["let", "go", "to", "churches"] -> "let go to churches"
+  review = ' '.join(review)
 
   corpus.append(review)
 
