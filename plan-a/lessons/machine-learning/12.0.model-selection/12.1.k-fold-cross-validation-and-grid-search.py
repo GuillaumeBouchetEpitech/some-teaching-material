@@ -61,6 +61,10 @@ print("accuracy_score", accuracy_score(y_test, y_pred))
 #
 # NEW STUFF HERE NEW STUFF HERE NEW STUFF HERE
 
+print(" -> cross_val_score")
+print(" -> cross_val_score")
+print(" -> cross_val_score")
+
 from sklearn.model_selection import cross_val_score
 accuracies = cross_val_score(
   estimator = classifierA,
@@ -82,6 +86,10 @@ print("All Accuracies:", accuracies.reshape(len(accuracies), 1))
 #
 #
 # NEW STUFF HERE NEW STUFF HERE NEW STUFF HERE
+
+print(" -> GridSearchCV")
+print(" -> GridSearchCV")
+print(" -> GridSearchCV")
 
 classifierB = SVC(kernel = 'rbf', random_state = 0)
 classifierB.fit(X_train, y_train)
@@ -113,6 +121,19 @@ best_accuracy = grid_search.best_score_
 best_parameters = grid_search.best_params_
 print("Best Accuracy: {:.2f} %".format(best_accuracy*100))
 print("Best Parameters:", best_parameters)
+
+classifierC = grid_search.best_estimator_
+
+accuracies = cross_val_score(
+  estimator = classifierC,
+  X = X_train,
+  y = y_train,
+  cv = 10 # k-fold -> will chunk-ify 10 times and train/test over it all
+)
+print(" -> Accuracy (higher is better): {:.2f} %".format(accuracies.mean()*100))
+print(" -> Standard Deviation (lower is better): {:.2f} %".format(accuracies.std()*100))
+print(" -> All Accuracies:", accuracies.reshape(len(accuracies), 1))
+
 
 # NEW STUFF HERE NEW STUFF HERE NEW STUFF HERE
 #
