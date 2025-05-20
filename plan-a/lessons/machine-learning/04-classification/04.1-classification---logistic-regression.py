@@ -128,7 +128,6 @@ raw_data = np.array([X1.ravel(), X2.ravel()]).T
 
 
 fig,ax = plt.subplots(nrows = 1, ncols = 2, figsize = (10,4.2))
-ax = ax.flat
 
 labels = ['did buy', 'did not']
 sns.heatmap(cm, cmap = 'Reds', annot = True, annot_kws = {'fontweight':'bold'}, fmt = " ", square = True, cbar = False,
