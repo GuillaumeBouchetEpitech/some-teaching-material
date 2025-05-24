@@ -87,42 +87,66 @@ print("All Accuracies:", accuracies.reshape(len(accuracies), 1))
 #
 # NEW STUFF HERE NEW STUFF HERE NEW STUFF HERE
 
-print(" -> GridSearchCV")
-print(" -> GridSearchCV")
-print(" -> GridSearchCV")
+model_filepath = f"{_get_current_folder()}/12.1.classifier.joblib"
 
-classifierB = SVC(kernel = 'rbf', random_state = 0)
-classifierB.fit(X_train, y_train)
+from pathlib import Path
+import tensorflow as tf
 
-from sklearn.model_selection import GridSearchCV
-parameters = [
-  {'C': [1.0, 1.1, 1.2, 1.3, 1.4, 1.5], 'kernel': ['linear']},
-  {'C': [1.0, 1.1, 1.2, 1.3, 1.4, 1.5], 'kernel': ['rbf'], 'gamma': [2.5,2.6,2.7,2.8,2.9,3.0]}
-]
-# will also refit the classifier and keep the best one
-grid_search = GridSearchCV(
-  estimator = classifierB,
-  param_grid = parameters,
+model_file = Path(model_filepath)
+if model_file.exists() and model_file.is_file():
 
-  scoring = 'accuracy',
+  print("model file was found")
+  print("reusing previously trained model")
 
-  # k-fold -> will chunk-ify 10 times and train/test over it all
-  cv = 10,
+  from joblib import load
+  classifierC = load(model_filepath)
 
-  # once done, refit the classifier with the best parameters
-  refit = True,
+else:
 
-  # n_jobs = -1 # use all cpu cores (a bit much...)
-  # n_jobs = 4 # use 4 cpu cores
-  n_jobs = 8 # use 8 cpu cores
-)
-grid_search.fit(X_train, y_train)
-best_accuracy = grid_search.best_score_
-best_parameters = grid_search.best_params_
-print("Best Accuracy: {:.2f} %".format(best_accuracy*100))
-print("Best Parameters:", best_parameters)
+  print(" -> GridSearchCV")
+  print(" -> GridSearchCV")
+  print(" -> GridSearchCV")
 
-classifierC = grid_search.best_estimator_
+  classifierB = SVC(kernel = 'rbf', random_state = 0)
+  classifierB.fit(X_train, y_train)
+
+  from sklearn.model_selection import GridSearchCV
+  parameters = [
+    {'C': [1.0, 1.1, 1.2, 1.3, 1.4, 1.5], 'kernel': ['linear']},
+    {'C': [1.0, 1.1, 1.2, 1.3, 1.4, 1.5], 'kernel': ['rbf'], 'gamma': [2.5,2.6,2.7,2.8,2.9,3.0]}
+  ]
+  # will also refit the classifier and keep the best one
+  grid_search = GridSearchCV(
+    estimator = classifierB,
+    param_grid = parameters,
+
+    scoring = 'accuracy',
+
+    # k-fold -> will chunk-ify 10 times and train/test over it all
+    cv = 10,
+
+    # once done, refit the classifier with the best parameters
+    refit = True,
+
+    # n_jobs = -1 # use all cpu cores (a bit much...)
+    # n_jobs = 4 # use 4 cpu cores
+    n_jobs = 8 # use 8 cpu cores
+  )
+  grid_search.fit(X_train, y_train)
+  best_accuracy = grid_search.best_score_
+  best_parameters = grid_search.best_params_
+  print("Best Accuracy: {:.2f} %".format(best_accuracy*100))
+  print("Best Parameters:", best_parameters)
+
+  classifierC = grid_search.best_estimator_
+
+  # Save the model to a file
+  from joblib import dump
+  dump(classifierC, model_filepath)
+
+#
+#
+#
 
 accuracies = cross_val_score(
   estimator = classifierC,

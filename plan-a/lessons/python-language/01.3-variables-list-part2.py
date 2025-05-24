@@ -24,30 +24,30 @@ print("")
 
 
 
-my_list = []
+my_listInt: list[int] = []
 
 
 
-print(f"len(my_list) -> {len(my_list)}") # -> 0
+print(f"len(my_list) -> {len(my_listInt)}") # -> 0
 
 # fill the list with a range iterator call
-my_list.extend(range(0,5)) # -> [0,1,2,3,4]
+my_listInt.extend(range(0,5)) # -> [0,1,2,3,4]
 
 
 # Note -> it's OK if the 'range' function does not make sense
 
 
-print(f"len(my_list) -> {len(my_list)}") # -> 5
+print(f"len(my_listInt) -> {len(my_listInt)}") # -> 5
 
 # loop alt1 (preferred)
 print("loop alt1")
-for my_item in my_list:
+for my_item in my_listInt:
     print(f" ---> {my_item}")
 
 # loop alt2 (Not preferred)
 print("loop alt2")
-for index in range(0, (len(my_list))):
-    print(f" ---> {my_list[index]}")
+for index in range(0, (len(my_listInt))):
+    print(f" ---> {my_listInt[index]}")
 
 
 
@@ -55,13 +55,13 @@ for index in range(0, (len(my_list))):
 
 
 # easy way to check if a value is in a list
-print(f"my_list -> {my_list}")
-print(f"0 in my_list -> {0 in my_list}") # True
-print(f"1 in my_list -> {1 in my_list}") # True
-print(f"2 in my_list -> {2 in my_list}") # True
-print(f"3 in my_list -> {3 in my_list}") # True
-print(f"4 in my_list -> {4 in my_list}") # True
-print(f"5 in my_list -> {5 in my_list}") # False
+print(f"my_listInt -> {my_listInt}")
+print(f"0 in my_listInt -> {0 in my_listInt}") # True
+print(f"1 in my_listInt -> {1 in my_listInt}") # True
+print(f"2 in my_listInt -> {2 in my_listInt}") # True
+print(f"3 in my_listInt -> {3 in my_listInt}") # True
+print(f"4 in my_listInt -> {4 in my_listInt}") # True
+print(f"5 in my_listInt -> {5 in my_listInt}") # False
 
 
 
@@ -70,7 +70,7 @@ print(f"5 in my_list -> {5 in my_list}") # False
 
 # search an item and find it's index
 
-my_list = ['one', 'two', 'three', 'four', 'five']
+my_list: list[str] = ['one', 'two', 'three', 'four', 'five']
 print(f"my_list -> {my_list}")
 
 to_search = 'three' # search for value 3
@@ -89,7 +89,7 @@ print("") # spacing in the console
 
 # list are object that are 'referenced'
 
-my_list = ['one', 'two', 'three', 'four', 'five']
+my_list: list[str] = ['one', 'two', 'three', 'four', 'five']
 my_second_list = my_list
 
 print(f"my_list        -> {my_list}") # ['one', 'two', 'three', 'four', 'five']
@@ -135,7 +135,7 @@ print("") # spacing in the console
 
 # how to duplicate a list
 
-my_list = ['one', 'two', 'three', 'four', 'five']
+my_list: list[str] = ['one', 'two', 'three', 'four', 'five']
 my_second_list = [x for x in my_list]
 
 print(f"my_list        -> {my_list}") # ['one', 'two', 'three', 'four', 'five']
