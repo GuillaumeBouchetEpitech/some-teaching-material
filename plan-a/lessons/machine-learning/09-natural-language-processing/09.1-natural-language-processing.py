@@ -126,21 +126,11 @@ else:
   ann = tf.keras.models.Sequential()
   ann.add(tf.keras.layers.Input(shape=(input_size,)))
 
-  # add 4 dense layer
-  for i in range(0, 5):
-    ann.add(tf.keras.layers.Dense(units=256, activation='relu'))
-    ann.add(tf.keras.layers.Dropout(rate=0.3))
-
+  ann.add(tf.keras.layers.Dense(units=256, activation='relu'))
+  ann.add(tf.keras.layers.Dense(units=256, activation='relu'))
   ann.add(tf.keras.layers.Dense(units=128, activation='relu'))
-  ann.add(tf.keras.layers.Dropout(rate=0.3))
-
-  # funnel previous layer of 128 to new layer of 64
   ann.add(tf.keras.layers.Dense(units=64, activation='relu'))
-  ann.add(tf.keras.layers.Dropout(rate=0.3))
-
-  # funnel previous layer of 64 to new layer of 1
   ann.add(tf.keras.layers.Dense(units=32, activation='relu'))
-  ann.add(tf.keras.layers.Dropout(rate=0.3))
 
   # output layer of 1
   ann.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
@@ -148,17 +138,18 @@ else:
   ann.compile(
 
     # optimizer='sgd', # stochastic gradient descent -> worst (max accuracy was 0.6)
-    optimizer='adam', # Adam algorithm -> best (max accuracy was 0.765)
+    # optimizer=tf.keras.optimizers.Adam(0.01), # Adam algorithm -> best (max accuracy was 0.765)
+    # optimizer=tf.keras.optimizers.Adam(), # Adam algorithm -> best (max accuracy was 0.765)
+    optimizer='adamw',
 
     # loss='huber', # less sensitive to outlier values
     # loss='sparse_categorical_crossentropy', # less sensitive to outlier values
-    # loss=tf.keras.losses.sparse_categorical_crossentropy,
     loss='binary_crossentropy', # less sensitive to outlier values
 
 
     # metrics=['mean_absolute_error']
-    # metrics=['accuracy']
-    metrics=['accuracy', 'mean_absolute_error']
+    metrics=['accuracy']
+    # metrics=['accuracy', 'mean_absolute_error']
 
   )
   ann.summary()
@@ -167,6 +158,7 @@ else:
   early_stopping = tf.keras.callbacks.EarlyStopping(
     # monitor='val_loss',
     monitor='val_accuracy',
+    # monitor='accuracy',
 
     # here "patience" is the same as "epoch"
     # -> we're just after the 'restore_best_weights' feature

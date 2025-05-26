@@ -66,11 +66,13 @@ else:
   acc_per_fold: list[float] = []
   loss_per_fold: list[float] = []
 
-  num_folds = 10
+  num_folds = 5
 
-  from sklearn.model_selection import KFold
+  from sklearn.model_selection import KFold, StratifiedShuffleSplit
 
-  kfold = KFold(n_splits=num_folds, shuffle=True, random_state=0)
+
+  # kfold = KFold(n_splits=num_folds, shuffle=True, random_state=0)
+  kfold = StratifiedShuffleSplit(n_splits=num_folds, random_state=0)
 
   # K-fold Cross Validation model evaluation
   fold_no = 1
@@ -104,12 +106,47 @@ else:
     # model.add(tf.keras.layers.Dense(units=128, activation='relu'))
     # model.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
 
-    # mean_accuracy: 90.250
-    # mean_loss:     0.437
-    model.add(tf.keras.layers.Dense(units=16, activation='relu'))
-    model.add(tf.keras.layers.Dense(units=16, activation='relu'))
-    model.add(tf.keras.layers.Dense(units=8, activation='relu'))
+    # # Accuracy (higher is better):          90.500%
+    # # Standard Deviation (lower is better): 4.000%
+    # # Loss (lower is better):               0.387
+    # model.add(tf.keras.layers.Dense(units=16, activation='relu'))
+    # model.add(tf.keras.layers.Dense(units=16, activation='relu'))
+    # model.add(tf.keras.layers.Dense(units=8, activation='relu'))
+    # model.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
+
+    # # Accuracy (higher is better):          89.500%
+    # # Standard Deviation (lower is better): 4.583%
+    # # Loss (lower is better):               0.329
+    # model.add(tf.keras.layers.Dense(units=16, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    # model.add(tf.keras.layers.Dense(units=16, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    # model.add(tf.keras.layers.Dense(units=8, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    # model.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
+
+    # # Accuracy (higher is better):          90.500%
+    # # Standard Deviation (lower is better): 4.000%
+    # # Loss (lower is better):               0.326
+    # model.add(tf.keras.layers.Dense(units=32, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    # model.add(tf.keras.layers.Dense(units=32, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    # model.add(tf.keras.layers.Dense(units=16, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    # model.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
+
+    # # Accuracy (higher is better):          91.500%
+    # # Standard Deviation (lower is better): 3.000%
+    # # Loss (lower is better):               0.304
+    # model.add(tf.keras.layers.Dense(units=64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    # model.add(tf.keras.layers.Dense(units=64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    # model.add(tf.keras.layers.Dense(units=32, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    # model.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
+
+    # Accuracy (higher is better):          91.000%
+    # Standard Deviation (lower is better): 3.391%
+    # Loss (lower is better):               0.318
+    model.add(tf.keras.layers.Dense(units=64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    model.add(tf.keras.layers.Dense(units=64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    model.add(tf.keras.layers.Dense(units=64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+    model.add(tf.keras.layers.Dense(units=32, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
     model.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
+
 
     # # mean_accuracy:  89.66
     # # mean_loss:      0.327
@@ -197,7 +234,7 @@ else:
       X_train,
       y_train,
       epochs = total_epoch,
-      batch_size = 16,
+      batch_size = 32,
       validation_data=(X_test, y_test),
       callbacks=[my_log_callback(), checkpoint, early_stopping],
       verbose=0

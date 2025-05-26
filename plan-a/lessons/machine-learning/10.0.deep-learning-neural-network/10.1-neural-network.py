@@ -74,7 +74,7 @@ model_filepath = f"{_get_current_folder()}/10.1.deep-learning-model.keras"
 from pathlib import Path
 
 model_file = Path(model_filepath)
-if model_file.exists() and model_file.is_file():
+if model_file.exists() and model_file.is_file() and False:
 
   print("model file was found")
   print("reusing previously trained model")
@@ -89,20 +89,19 @@ else:
   ann = tf.keras.models.Sequential()
   ann.add(tf.keras.layers.Dense(units=64, activation='relu'))
   ann.add(tf.keras.layers.Dense(units=64, activation='relu'))
-  ann.add(tf.keras.layers.Dense(units=64, activation='relu'))
   ann.add(tf.keras.layers.Dense(units=32, activation='relu'))
   ann.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
 
-  ann.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+  ann.compile(
+    optimizer = tf.keras.optimizers.Adam(0.01),
+    loss = 'binary_crossentropy',
+    metrics = ['accuracy']
+  )
 
   ann.fit(X_train, y_train, batch_size = 256, epochs = 100)
 
   # Save the model
   ann.save(model_filepath)
-
-
-
-print(ann.predict(sc.transform([[1, 0, 0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000]])) > 0.5)
 
 
 y_pred = ann.predict(X_test)
@@ -121,4 +120,62 @@ print(f"   -> incorrect {cm[0][1]}")
 
 
 print("accuracy_score", accuracy_score(y_test, y_pred))
+
+
+
+def predict_if_custom_exit(
+  CreditScore: int,
+  Geography: str, # France, Spain, Germany
+  Gender: str, # Female, Male
+  Age: int,
+  Tenure: int,
+  Balance: int,
+  NumOfProducts: int,
+  HasCrCard: int,
+  IsActiveMember: int,
+  EstimatedSalary: int
+):
+
+  print("----------------------------------------------")
+  print("will my customer exit?")
+  print(f" -> CreditScore:     {CreditScore}")
+  print(f" -> Geography:       {Geography}")
+  print(f" -> Gender:          {Gender}")
+  print(f" -> Age:             {Age}")
+  print(f" -> Tenure:          {Tenure}")
+  print(f" -> Balance:         {Balance}")
+  print(f" -> NumOfProducts:   {NumOfProducts}")
+  print(f" -> HasCrCard:       {HasCrCard}")
+  print(f" -> IsActiveMember:  {IsActiveMember}")
+  print(f" -> EstimatedSalary: {EstimatedSalary}")
+  print("------------")
+
+  X_raw = np.array([[
+    CreditScore,
+    Geography, # (must be OneHotEncoded)
+    Gender, # (must be LabelEncoded)
+    Age,
+    Tenure,
+    Balance,
+    NumOfProducts,
+    HasCrCard,
+    IsActiveMember,
+    EstimatedSalary
+  ]])
+
+  # label encoded -> Gender -> 0 or 1
+  X_raw[:, 2] = le.transform(X_raw[:, 2])
+
+  # column transformer -> Geography -> translated as 3 columns at the front
+  X_raw = np.array(ct.transform(X_raw))
+
+  y_pred = ann.predict(sc.transform(X_raw), verbose=0)
+
+  y_pred = y_pred.reshape(1,) # one dimension numpy array
+
+  print(f"exit chances: {y_pred[0]:.3f}")
+  print(f"exit result:  {y_pred[0] > 0.5}")
+
+predict_if_custom_exit(300, "France", "Male", 20, 1, 7000, 1, 1, 0, 14000)
+predict_if_custom_exit(800, "Spain", "Female", 40, 3, 70000, 2, 1, 1, 80000)
 
