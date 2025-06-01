@@ -110,10 +110,11 @@ def build_model(hp: keras_tuner.HyperParameters):
 
 build_model(keras_tuner.HyperParameters())
 
-tuner = keras_tuner.RandomSearch(
+tuner = keras_tuner.GridSearch(
   hypermodel=build_model,
   objective=keras_tuner.Objective("val_accuracy", direction="max"),
-  max_trials=100,
+  # max_trials=100,
+  seed=0,
   executions_per_trial=2,
   overwrite=True,
   directory=f"{_get_current_folder()}/_keras_tuner",

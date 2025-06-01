@@ -123,7 +123,7 @@ print("accuracy_score", accuracy_score(y_test, y_pred))
 
 
 
-def predict_if_custom_exit(
+def predict_if_customer_exit(
   CreditScore: int,
   Geography: str, # France, Spain, Germany
   Gender: str, # Female, Male

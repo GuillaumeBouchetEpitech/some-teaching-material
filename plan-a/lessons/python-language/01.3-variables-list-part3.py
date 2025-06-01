@@ -147,7 +147,7 @@ print(f"my_list          -> {my_list}") # ['one', 'two', 'three', 'four', 'five'
 
 my_reversed_list = [x for x in reversed(my_list)] # copy
 
-print(f"my_reversed_list -> {my_reversed_list}") # ['one', 'two', 'three', 'four', 'five']
+print(f"my_reversed_list -> {my_reversed_list}") # ['five', 'four', 'three', 'two', 'one']
 
 
 
