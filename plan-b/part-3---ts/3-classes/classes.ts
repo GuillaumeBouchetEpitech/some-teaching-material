@@ -17,27 +17,35 @@ class MyDatabase {
     this._list.push(value);
   }
 
-  remove(value: string) {
-    const foundIndex = this._list.indexOf(value); // return -1 if not found
+  remove(toFind: string) {
+    // foundIndex is of value -1 if not found
+    const foundIndex = this._list.findIndex((value) => {
+      return value == toFind;
+    });
 
     if (foundIndex < 0) {
       return; // do nothing
     }
 
-    this._list.splice(foundIndex, 1); // remove one value from index "foundIndex"
+    // remove one value from index "foundIndex"
+    this._list.splice(foundIndex, 1);
   }
 
-  has(value: string) {
-    const foundIndex = this._list.indexOf(value); // return -1 if not found
+  has(toFind: string) {
+    // foundIndex is of value -1 if not found
+    const foundIndex = this._list.findIndex((value) => {
+      return value == toFind;
+    });
     if (foundIndex < 0) {
-      return false;
+      return false; // not found
     }
-    return true;
+    return true; // found
   }
 
   printContent() {
+    console.log(`size ${this._list.length}`);
     for (const value of this._list) {
-      console.log('->', value)
+      console.log(`-> ${value}`);
     }
   }
 
