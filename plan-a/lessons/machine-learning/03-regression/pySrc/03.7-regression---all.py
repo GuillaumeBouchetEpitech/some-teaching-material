@@ -105,8 +105,6 @@ def get_random_forest_regression() -> np.ndarray:
   regressor = GridSearchCV(estimator=RandomForestRegressor(random_state=0), param_grid=best_params, cv=5, scoring='neg_mean_absolute_error')
   regressor.fit(X_train, y_train)
 
-
-
   # Predicting the Test set results
   return regressor.predict(X_test)
 
