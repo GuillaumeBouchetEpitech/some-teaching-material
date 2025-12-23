@@ -12,36 +12,36 @@ int main()
 {
 
     {
-        // DEFAULT CAPACITY
+        // DEFAULT CAPACITY (SLOW)
 
         std::vector<int32_t> myIntVector;
 
         assert(myIntVector.size() == 0);
         assert(myIntVector.capacity() == 0);
 
-        myIntVector.push_back(1); // will realloc (capacity < to new size)
+        myIntVector.push_back(1); // (SLOW, especially with large vector) will realloc (capacity < to new size)
 
         assert(myIntVector.size() == 1);
         assert(myIntVector.capacity() == 1);
 
-        myIntVector.push_back(2); // will realloc (capacity < to new size)
+        myIntVector.push_back(2); // (SLOW, especially with large vector) will realloc (capacity < to new size)
 
         assert(myIntVector.size() == 2);
         assert(myIntVector.capacity() == 2);
 
-        myIntVector.push_back(3); // will realloc (capacity < to new size)
+        myIntVector.push_back(3); // (SLOW, especially with large vector) will realloc (capacity < to new size)
 
         assert(myIntVector.size() == 3);
         assert(myIntVector.capacity() == 4); // /!\ HIGHER CAPACITY -> is power of 2 (<- 1,2,4,8,16)
 
-        myIntVector.push_back(3); // will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(4); // (FAST) will NOT realloc (capacity >= to new size)
 
         assert(myIntVector.size() == 4);
-        assert(myIntVector.capacity() == 4); // DID NOT CHANGE -> was high enough
+        assert(myIntVector.capacity() == 4); // DID NOT CHANGE -> was high enough to accept the new size
     }
 
     {
-        // PRE-ALLOCATED CAPACITY
+        // PRE-ALLOCATED CAPACITY (this will make some operations FAST /!\)
 
         std::vector<int32_t> myIntVector;
 
@@ -53,24 +53,24 @@ int main()
         assert(myIntVector.size() == 0);
         assert(myIntVector.capacity() == 10);
 
-        myIntVector.push_back(1); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(2); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(3); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(4); // will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(1); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(2); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(3); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(4); // (FAST) will NOT realloc (capacity >= to new size)
 
         assert(myIntVector.size() == 4);
         assert(myIntVector.capacity() == 10); // DID NOT CHANGE -> was high enough
     }
 
     {
-        // ERASE LAST
+        // ERASE LAST (FAST since no reallocation done)
 
         std::vector<int32_t> myIntVector;
         myIntVector.reserve(10); // this will pre-allocate 10 elements
-        myIntVector.push_back(1); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(2); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(3); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(4); // will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(1); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(2); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(3); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(4); // (FAST) will NOT realloc (capacity >= to new size)
 
         assert(myIntVector.size() == 4);
         assert(myIntVector.capacity() == 10);
@@ -82,14 +82,14 @@ int main()
     }
 
     {
-        // ERASE ANYWHERE (SLOW)
+        // ERASE ANYWHERE (the SLOW version -> this will realloc)
 
         std::vector<int32_t> myIntVector;
         myIntVector.reserve(10); // this will pre-allocate 10 elements
-        myIntVector.push_back(1); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(2); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(3); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(4); // will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(1); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(2); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(3); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(4); // (FAST) will NOT realloc (capacity >= to new size)
 
         assert(myIntVector.size() == 4);
         assert(myIntVector.capacity() == 10);
@@ -98,6 +98,7 @@ int main()
         assert(myIntVector.at(2) == 3);
         assert(myIntVector.at(3) == 4);
 
+        // not, here we do `being() + X` which only works on contiguous container (<- std::array, std::vector)
         myIntVector.erase(myIntVector.begin() + 1); // remove "2", will always realloc (SLOW)
 
         assert(myIntVector.size() == 3);
@@ -108,14 +109,14 @@ int main()
     }
 
     {
-        // ERASE ANYWHERE (FAST)
+        // ERASE ANYWHERE (the FAST version -> with one downside)
 
         std::vector<int32_t> myIntVector;
         myIntVector.reserve(10); // this will pre-allocate 10 elements
-        myIntVector.push_back(1); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(2); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(3); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(4); // will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(1); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(2); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(3); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(4); // (FAST) will NOT realloc (capacity >= to new size)
 
         assert(myIntVector.size() == 4);
         assert(myIntVector.capacity() == 10);
@@ -130,19 +131,22 @@ int main()
         assert(myIntVector.size() == 3);
         assert(myIntVector.capacity() == 10);
         assert(myIntVector.at(0) == 1);
-        assert(myIntVector.at(1) == 4); // used to be the last element before being swapped
+        assert(myIntVector.at(1) == 4); // used to be the last element before "it" being "swapped"
         assert(myIntVector.at(2) == 3);
+
+        // one downside -> the array has now lost it's "order", here from [1,2,3,4] to [1,4,3]
+        // this might be an issue depending on the context
     }
 
     {
-        // LOOP
+        // LOOP (FAST -> is memory contiguous/aligned -> less "memory jumps" and more cache CPU hit)
 
         std::vector<int32_t> myIntVector;
         myIntVector.reserve(10); // this will pre-allocate 10 elements
-        myIntVector.push_back(1); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(2); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(3); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(4); // will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(1); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(2); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(3); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(4); // (FAST) will NOT realloc (capacity >= to new size)
 
         // counting for loop (FAST)
         for (std::size_t ii = 0; ii < myIntVector.size(); ++ii) {
@@ -163,14 +167,14 @@ int main()
     }
 
     {
-        // FIND (FAST)
+        // FIND (FAST -> is memory contiguous/aligned -> less "memory jumps" and more cache CPU hit)
 
         std::vector<int32_t> myIntVector;
         myIntVector.reserve(10); // this will pre-allocate 10 elements
-        myIntVector.push_back(1); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(2); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(3); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(4); // will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(1); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(2); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(3); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(4); // (FAST) will NOT realloc (capacity >= to new size)
 
         auto it = std::find(myIntVector.begin(), myIntVector.end(), 3);
 
@@ -183,14 +187,14 @@ int main()
     }
 
     {
-        // FIND_IF (FAST)
+        // FIND_IF (FAST -> is memory contiguous/aligned -> less "memory jumps" and more cache CPU hit)
 
         std::vector<int32_t> myIntVector;
         myIntVector.reserve(10); // this will pre-allocate 10 elements
-        myIntVector.push_back(1); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(2); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(3); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(4); // will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(1); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(2); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(3); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(4); // (FAST) will NOT realloc (capacity >= to new size)
 
         auto it = std::find_if(myIntVector.begin(), myIntVector.end(), [](int32_t currVal) {
             return currVal == 3;
@@ -205,14 +209,14 @@ int main()
     }
 
     {
-        // SORT (FAST)
+        // SORT (FAST -> is memory contiguous/aligned -> less "memory jumps" and more cache CPU hit)
 
         std::vector<int32_t> myIntVector;
         myIntVector.reserve(10); // this will pre-allocate 10 elements
-        myIntVector.push_back(4); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(3); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(2); // will NOT realloc (capacity >= to new size)
-        myIntVector.push_back(1); // will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(4); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(3); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(2); // (FAST) will NOT realloc (capacity >= to new size)
+        myIntVector.push_back(1); // (FAST) will NOT realloc (capacity >= to new size)
 
         assert(myIntVector.size() == 4);
         assert(myIntVector.capacity() == 10);
