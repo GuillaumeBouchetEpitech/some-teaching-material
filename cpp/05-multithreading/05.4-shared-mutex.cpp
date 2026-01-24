@@ -193,6 +193,7 @@ int main()
         constexpr int k_totalCycles = 5;
         for (int ii = 0; ii < k_totalCycles; ++ii)
         {
+            toRemove.clear();
             sessionManager.forEachSession([&toRemove](std::shared_ptr<IDummyPlayerSession> currSession)
             {
                 // threadsafe session container (shared_lock -> mutiple read)
