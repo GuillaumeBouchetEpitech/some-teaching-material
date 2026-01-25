@@ -3,7 +3,8 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/cpp/04-pimpl/small-project/src/**"
+                "${workspaceFolder}/cpp/04-pimpl/small-project/src/**",
+                "${workspaceFolder}/cpp/05-multithreading/small-project/src/**"
             ],
             "compilerPath": "/usr/bin/g++",
             "cStandard": "c17",
