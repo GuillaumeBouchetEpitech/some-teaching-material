@@ -1,0 +1,133 @@
+digraph {
+
+  bgcolor="#aaaaaa"
+
+  compound=true;
+
+  node [
+    shape="box"
+    style=filled
+    fontcolor="#eeeeee"
+    fillcolor="#666644"
+    margin="0.2"
+  ]
+
+  edge [
+    fontcolor="#ffffff"
+    color="#aaaaaa"
+    penwidth=4.0
+    len=1.0
+    minlen=1.0
+  ]
+
+  subgraph modular_rag {
+    label = "Modular RAG"
+    fontcolor="#ffffff"
+    bgcolor="#333333"
+    cluster=true
+    // lheight=5.0
+    margin="30.0"
+
+    research [label=< <b>User requested</b><br/><br/>- Research<br align="left"/>- Debugging<br align="left"/>- etc.<br align="left"/>> shape="box" fillcolor="#444466"]
+
+    subgraph main_loop {
+      label = "Main Loop"
+      fontcolor="#ffffff"
+      bgcolor="#555555"
+      style="filled,rounded"
+      cluster=true
+
+      node [style="filled,rounded"]
+      node [fillcolor="#664466"]
+
+      step1 [label=<<b>Step 1</b>
+<br align="left"/>- research the subject
+<br align="left"/>- use 1..3 researcher subagents
+<br align="left"/>- ex:
+<br align="left"/>    - Docs
+<br align="left"/>    - Source Code
+<br align="left"/>    - Proj. Manager (ex: Jira)
+<br align="left"/>    - Loggers (ex: Grafana)
+<br align="left"/>>]
+      step2 [label=<<b>Step 2</b>
+<br align="left"/>- counter research the subject
+<br align="left"/>- use 1..3 researcher subagents
+<br align="left"/>>]
+      step3 [label=<<b>Step 3</b>
+<br align="left"/>- judge the results
+<br align="left"/>- determine confidence
+<br align="left"/>>]
+
+      node [style="filled"]
+
+      node [margin="0.0" width="1.5" height="1.5"]
+
+      step3_1 [label="confidence\nscore?\n" shape="diamond" fillcolor="#666600"]
+      step3_2 [label="can retry?\n(max 5)\n" shape="diamond" fillcolor="#664422"]
+
+      node [margin="0.0" width="0.0" height="0.0"]
+    }
+
+    subgraph results {
+      label = "Final Result"
+      fontcolor="#ffffff"
+      bgcolor="#555555"
+      style="filled,rounded"
+      cluster=true
+
+      node [style="filled,rounded"]
+
+      summarize [label=<<b>High Confidence<br/>Summary</b><br/><br/><u>Format:</u><br align="left"/>- TL;DR<br align="left"/>- What was done<br align="left"/>- complete results<br align="left"/>- sources/references<br align="left"/>> fillcolor="#446644"]
+      low_confidence [label=<<b>Low Confidence<br/>Summary</b><br/><br/><u>Format:</u><br align="left"/>- must say: <b>"I don't know."</b><br align="left"/>- What was done<br align="left"/>- Why the lack of confidence<br align="left"/>> fillcolor="#664444"]
+
+      node [margin="0.15"]
+    }
+
+    node [style="filled"]
+    node [fillcolor="#444444"]
+
+    all_subagents [label=<
+  <table border="0" cellpadding="4">
+  <tr><td colspan="3">All Sub-Agents</td></tr>
+
+  <tr><td PORT="leader" bgcolor="#660000" colspan="3"><b>Research Team Leader</b><br/>(is in fact running the Modular RAG entire logic)</td></tr>
+
+  <tr><td PORT="worker" bgcolor="#006600" rowspan="6" colspan="1"><b>Researchers</b><br/>(Step 1 and 2<br/>uses that)</td><td colspan="2"></td></tr>
+  <tr><td bgcolor="#004400"  border="1" align="left" colspan="1">Docs</td><td bgcolor="#004400"  border="1" align="left" colspan="1">Confluence, internal wiki, etc.</td></tr>
+  <tr><td bgcolor="#225522"  border="1" align="left" colspan="1">Source Code</td><td bgcolor="#225522"  border="1" align="left" colspan="1">graphify, sourcebot, github, etc.</td></tr>
+  <tr><td bgcolor="#004400"  border="1" align="left" colspan="1">Proj. Manager</td><td bgcolor="#004400"  border="1" align="left" colspan="1">Jira, Linear, etc.</td></tr>
+  <tr><td bgcolor="#225522"  border="1" align="left" colspan="1">Loggers</td><td bgcolor="#225522"  border="1" align="left" colspan="1">Grafana, Datadog, etc.</td></tr>
+  <tr><td bgcolor="#004400"  border="1" align="left" colspan="1">Cloud</td><td bgcolor="#004400"  border="1" align="left" colspan="1">AWS, ArgoCD, kubectl, etc.</td></tr>
+
+  <tr><td PORT="critic" bgcolor="#114488" colspan="3"><b>Research Results Critic</b><br/>(Step 3 uses that)</td></tr>
+  </table>>
+  margin="0.3"]
+
+  }
+
+  research -> step1 [color="#8888ff"]
+
+  edge  [color="#ff88ff"]
+  step1 -> step2
+  step2 -> step3
+  step3 -> step3_1
+  step3_1 -> step3_2 [label=" Low\nconfidence\nscore" fontcolor="#ffff00" color="#888800"]
+  step1 -> step3_2 [label="Can\nretry\n" fontcolor="#ff8844" color="#ff8844" dir="back" style="dashed" penwidth=6]
+  step3_2 -> low_confidence [label=" No more\nretries left\n" fontcolor="#ff2222" color="#882222"]
+  step3_1 -> summarize [label="High\nconfidence\nscore" fontcolor="#00ff00" color="#008800"]
+
+  edge [
+    fontcolor="#ffffff"
+    color="#4488ff"
+    style="dashed"
+    penwidth=4.0
+    len=0.0
+    minlen=0.0
+  ]
+
+  research -> all_subagents:leader [label="" color="#880000" fontcolor="#ff8888"]
+  step1 -> all_subagents:worker [label="" color="#008800" fontcolor="#88ff88"]
+  step2 -> all_subagents:worker [label="" color="#008800" fontcolor="#88ff88"]
+  step3 -> all_subagents:critic [label="" color="#114488" fontcolor="#66aaff"]
+
+}
