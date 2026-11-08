@@ -150,26 +150,26 @@ digraph {
     node [style="filled"]
     node [fillcolor="#444444"]
 
-    subgraph cluster_subagents {
+    // subgraph cluster_subagents {
 
-      label = "All Sub-Agents"
+    //   label = "All Sub-Agents"
 
-      all_subagents [label=<
-        <table border="0" cellpadding="4">
-        <tr><td PORT="leader" bgcolor="#660000" colspan="3"><b>Research Team Leader</b><br/>(is in fact running the Modular RAG entire logic)</td></tr>
+    //   all_subagents [label=<
+    //     <table border="0" cellpadding="4">
+    //     <tr><td PORT="leader" bgcolor="#660000" colspan="3"><b>Research Team Leader</b><br/>(is in fact running the Modular RAG entire logic)</td></tr>
 
-        <tr><td PORT="worker" bgcolor="#552255" rowspan="6" colspan="1"><b>Researchers</b><br/><br/>(Step 1 and 2<br/>uses that)</td></tr>
-        <tr><td bgcolor="#440044"  border="1" align="left" colspan="1">Docs</td><td bgcolor="#440044"  border="1" align="left" colspan="1">Confluence, internal wiki, etc.</td></tr>
-        <tr><td bgcolor="#552255"  border="1" align="left" colspan="1">Source Code</td><td bgcolor="#552255"  border="1" align="left" colspan="1">graphify, sourcebot, github, etc.</td></tr>
-        <tr><td bgcolor="#440044"  border="1" align="left" colspan="1">Proj. Manager</td><td bgcolor="#440044"  border="1" align="left" colspan="1">Jira, Linear, etc.</td></tr>
-        <tr><td bgcolor="#552255"  border="1" align="left" colspan="1">Loggers</td><td bgcolor="#552255"  border="1" align="left" colspan="1">Grafana, Datadog, etc.</td></tr>
-        <tr><td bgcolor="#440044"  border="1" align="left" colspan="1">Cloud</td><td bgcolor="#440044"  border="1" align="left" colspan="1">AWS, ArgoCD, kubectl, etc.</td></tr>
+    //     <tr><td PORT="worker" bgcolor="#552255" rowspan="6" colspan="1"><b>Researchers</b><br/><br/>(Step 1 and 2<br/>uses that)</td></tr>
+    //     <tr><td bgcolor="#440044"  border="1" align="left" colspan="1">Docs</td><td bgcolor="#440044"  border="1" align="left" colspan="1">Confluence, internal wiki, etc.</td></tr>
+    //     <tr><td bgcolor="#552255"  border="1" align="left" colspan="1">Source Code</td><td bgcolor="#552255"  border="1" align="left" colspan="1">graphify, sourcebot, github, etc.</td></tr>
+    //     <tr><td bgcolor="#440044"  border="1" align="left" colspan="1">Proj. Manager</td><td bgcolor="#440044"  border="1" align="left" colspan="1">Jira, Linear, etc.</td></tr>
+    //     <tr><td bgcolor="#552255"  border="1" align="left" colspan="1">Loggers</td><td bgcolor="#552255"  border="1" align="left" colspan="1">Grafana, Datadog, etc.</td></tr>
+    //     <tr><td bgcolor="#440044"  border="1" align="left" colspan="1">Cloud</td><td bgcolor="#440044"  border="1" align="left" colspan="1">AWS, ArgoCD, kubectl, etc.</td></tr>
 
-        <tr><td PORT="critic" bgcolor="#114488" colspan="3"><b>Research Results Critic</b><br/>(Step 3 uses that)</td></tr>
-        </table>>
-        margin="0.3"]
+    //     <tr><td PORT="critic" bgcolor="#114488" colspan="3"><b>Research Results Critic</b><br/>(Step 3 uses that)</td></tr>
+    //     </table>>
+    //     margin="0.3"]
 
-    }
+    // }
 
   }
 
@@ -177,7 +177,7 @@ digraph {
 
   edge  [color="#ff88ff"]
   step1 -> step2 [minlen=0.0]
-  step2 -> step3 [minlen=0.0]
+  step2 -> step3 [minlen=1.0]
   edge  [color="#114488"]
   step3 -> step3_1 [minlen=1.0]
   step3_1 -> step3_2 [label=" Low\nconfidence\nscore" fontcolor="#ffff00" color="#888800" minlen=0.0]
@@ -187,15 +187,11 @@ digraph {
   step3_1 -> final_result:high_confidence [label="High\nconfidence\nscore" fontcolor="#00ff00" color="#008800" minlen=1.0]
 
 
-  edge [
-    len=0.0
-    minlen=0.0
-  ]
+  // edge [
+  //   len=0.0
+  //   minlen=0.0
+  // ]
 
-  // research -> all_subagents:leader [label="" color="#880000" fontcolor="#ff8888"]
-  // step1 -> all_subagents:worker [label="" color="#008800" fontcolor="#88ff88"]
-  // step2 -> all_subagents:worker [label="" color="#008800" fontcolor="#88ff88"]
-  // step3 -> all_subagents:critic [label="" color="#114488" fontcolor="#66aaff"]
-  step3 -> all_subagents:critic [style="invis"]
+  // step3 -> all_subagents:critic [style="invis"]
 
 }
