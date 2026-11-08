@@ -35,7 +35,7 @@ Here assuming a "Modular RAG based researcher skill/subagent".
 
 ### Diagram
 
-![modular-rag.svg](./diagrams/modular-rag.svg)
+![modular-rag.png](./diagrams/modular-rag.png)
 
 ## Official Research Paper
 
